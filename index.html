@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Surbhi Saini – Social Media Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       ROOT DESIGN TOKENS — edit freely
+    ============================================================ */
+    :root {
+      --bg:          #0a0a0a;
+      --surface:     #111111;
+      --surface2:    #1a1a1a;
+      --border:      #2a2a2a;
+      --accent:      #c9a96e;          /* warm gold — your signature colour */
+      --accent2:     #e8c99a;
+      --text:        #f0ede8;
+      --text-muted:  #888880;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'DM Sans', sans-serif;
+      --max-w:        480px;
+      --radius:       4px;
+      --story-size:   68px;
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--bg); }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================================
+       APP SHELL — phone-width container
+    ============================================================ */
+    #app {
+      width: 100%;
+      max-width: var(--max-w);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       TOP BAR
+    ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+    }
+    .topbar-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+    .topbar-name em { color: var(--accent); font-style: italic; }
+    .topbar-icons { display: flex; gap: 18px; align-items: center; }
+    .topbar-icons svg { width: 22px; height: 22px; stroke: var(--text); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; cursor: pointer; transition: stroke 0.2s; }
+    .topbar-icons svg:hover { stroke: var(--accent); }
+
+    /* ============================================================
+       PROFILE HEADER
+    ============================================================ */
+    .profile-header {
+      padding: 22px 18px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .profile-top {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Avatar ring */
+    .avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .avatar-ring {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      padding: 3px;
+      background: conic-gradient(from 180deg, #c9a96e, #e8c99a, #b8860b, #c9a96e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--bg);
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .avatar-inner img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-placeholder {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--accent);
+      user-select: none;
+    }
+
+    /* Stats */
+    .profile-stats {
+      display: flex;
+      gap: 22px;
+      flex: 1;
+      justify-content: space-around;
+    }
+    .stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .stat-num {
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* Bio */
+    .profile-bio {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .bio-name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .bio-role {
+      font-size: 0.82rem;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .bio-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-top: 2px;
+      white-space: pre-line;
+    }
+    .bio-link {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.83rem;
+      color: var(--accent);
+      text-decoration: none;
+      margin-top: 3px;
+    }
+    .bio-link:hover { color: var(--accent2); }
+    .bio-link svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    /* Tags */
+    .bio-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .bio-tag {
+      font-size: 0.72rem;
+      padding: 3px 9px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--text-muted);
+      letter-spacing: 0.03em;
+    }
+
+    /* Buttons */
+    .profile-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .btn {
+      flex: 1;
+      padding: 8px 0;
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 0.83rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+    .btn-primary:hover { background: var(--accent2); }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-icon {
+      flex: none;
+      width: 38px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius);
+      padding: 0;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .btn-icon:hover { border-color: var(--accent); }
+    .btn-icon svg { width: 16px; height: 16px; stroke: var(--text); fill: none; stroke-width: 2; }
+
+    /* ============================================================
+       HIGHLIGHTS (Stories-style)
+    ============================================================ */
+    .highlights-section {
+      padding: 8px 0 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .highlights-scroll {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding: 4px 18px;
+      scrollbar-width: none;
+    }
+    .highlights-scroll::-webkit-scrollbar { display: none; }
+    .highlight-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .highlight-ring {
+      width: var(--story-size);
+      height: var(--story-size);
+      border-radius: 50%;
+      padding: 2px;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.25s;
+    }
+    .highlight-item:hover .highlight-ring {
+      background: conic-gradient(from 180deg, #c9a96e, #e8c99a, #c9a96e);
+    }
+    .highlight-icon-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 3px solid var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      overflow: hidden;
+    }
+    .highlight-icon-inner img { width: 100%; height: 100%; object-fit: cover; }
+    .highlight-label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: var(--story-size);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       TAB BAR
+    ============================================================ */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 53px;
+      z-index: 90;
+      background: var(--bg);
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 12px 0;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .tab-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+    .tab-btn.active {
+      border-bottom-color: var(--accent);
+      color: var(--accent);
+    }
+    .tab-btn:hover { color: var(--text); }
+
+    /* ============================================================
+       GRID VIEW
+    ============================================================ */
+    #tab-grid, #tab-reels, #tab-tagged { display: none; }
+    #tab-grid.show, #tab-reels.show, #tab-tagged.show { display: block; }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .grid-item {
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--surface);
+    }
+    .grid-item img,
+    .grid-item .grid-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease, opacity 0.25s;
+    }
+    .grid-item:hover img,
+    .grid-item:hover .grid-thumb { transform: scale(1.05); opacity: 0.8; }
+
+    /* Video indicator */
+    .grid-item-badge {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      z-index: 2;
+    }
+    .grid-item-badge svg {
+      width: 18px;
+      height: 18px;
+      fill: white;
+      filter: drop-shadow(0 1px 3px rgba(0,0,0,0.6));
+    }
+
+    /* Multi-image indicator */
+    .multi-badge {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      z-index: 2;
+    }
+    .multi-badge svg { width: 18px; height: 18px; fill: white; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.6)); }
+
+    /* Hover overlay */
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .grid-item:hover .grid-overlay { opacity: 1; }
+    .grid-stat { display: flex; align-items: center; gap: 4px; color: #fff; font-size: 0.8rem; font-weight: 500; }
+    .grid-stat svg { width: 16px; height: 16px; fill: white; }
+
+    /* Vimeo thumbnail overlay */
+    .vimeo-thumb-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .vimeo-thumb-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .play-btn-circle {
+      width: 36px;
+      height: 36px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .play-btn-circle svg { width: 16px; height: 16px; fill: white; margin-left: 2px; }
+
+    /* ============================================================
+       REELS TAB
+    ============================================================ */
+    .reels-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3px;
+    }
+    .reel-item {
+      position: relative;
+      aspect-ratio: 9/16;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--surface);
+    }
+    .reel-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+    .reel-item:hover .reel-thumb { transform: scale(1.04); }
+    .reel-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 24px 10px 10px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    }
+    .reel-client {
+      font-size: 0.7rem;
+      color: var(--accent);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .reel-caption {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.9);
+      line-height: 1.35;
+      margin-top: 2px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ============================================================
+       LIGHTBOX / MODAL
+    ============================================================ */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.96);
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .lightbox.open { display: flex; }
+
+    .lb-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .lb-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--surface2);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .lb-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .lb-avatar-placeholder { font-family: var(--font-display); font-size: 0.9rem; color: var(--accent); }
+    .lb-user { display: flex; flex-direction: column; gap: 1px; flex: 1; }
+    .lb-username { font-size: 0.85rem; font-weight: 500; color: var(--text); }
+    .lb-client { font-size: 0.72rem; color: var(--accent); }
+    .lb-close {
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      padding: 4px;
+    }
+    .lb-close svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    .lb-content {
+      flex: 1;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .lb-content::-webkit-scrollbar { display: none; }
+
+    /* Image in lightbox */
+    .lb-media-img {
+      width: 100%;
+      max-height: 60vh;
+      object-fit: contain;
+      display: block;
+      background: #000;
+    }
+
+    /* Vimeo in lightbox */
+    .lb-vimeo-wrap {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 */
+      background: #000;
+    }
+    .lb-vimeo-wrap.portrait { padding-bottom: 177.77%; } /* 9:16 portrait */
+    .lb-vimeo-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .lb-details {
+      padding: 14px 16px 24px;
+    }
+    .lb-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .lb-action-group { display: flex; gap: 14px; align-items: center; }
+    .lb-action-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+    .lb-action-btn:hover { color: var(--accent); }
+    .lb-action-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .lb-action-btn.liked svg { fill: #e74c3c; stroke: #e74c3c; }
+
+    .lb-likes { font-size: 0.83rem; font-weight: 500; color: var(--text); margin-bottom: 8px; }
+    .lb-caption { font-size: 0.85rem; color: var(--text); line-height: 1.55; }
+    .lb-caption strong { font-weight: 500; margin-right: 6px; }
+    .lb-caption-full { display: none; }
+    .lb-more { color: var(--text-muted); cursor: pointer; font-size: 0.82rem; }
+    .lb-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+    .lb-tag { font-size: 0.78rem; color: var(--accent); }
+    .lb-date { font-size: 0.72rem; color: var(--text-muted); margin-top: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* ============================================================
+       CONTACT CTA
+    ============================================================ */
+    .cta-bar {
+      background: linear-gradient(135deg, var(--surface) 0%, rgba(201,169,110,0.08) 100%);
+      border-top: 1px solid var(--border);
+      padding: 20px 18px;
+      text-align: center;
+    }
+    .cta-bar p { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5; }
+    .cta-bar p strong { color: var(--accent); font-weight: 500; }
+    .cta-links { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .cta-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.78rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.2s;
+      background: var(--surface2);
+    }
+    .cta-link:hover { border-color: var(--accent); color: var(--accent); }
+    .cta-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    /* ============================================================
+       BOTTOM NAV
+    ============================================================ */
+    .bottom-nav {
+      position: sticky;
+      bottom: 0;
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0 max(10px, env(safe-area-inset-bottom));
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 4px 12px;
+      transition: color 0.2s;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .nav-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+    .nav-btn.active { color: var(--accent); }
+    .nav-btn:hover { color: var(--text); }
+
+    /* ============================================================
+       UTILITY / ANIMATIONS
+    ============================================================ */
+    .fade-in { animation: fadeIn 0.4s ease forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* Scrollbar for lightbox on desktop */
+    @media (min-width: 480px) {
+      body { background: #050505; }
+      #app { box-shadow: 0 0 60px rgba(0,0,0,0.8); }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <span class="topbar-name">surbhi<em>.</em></span>
+    <div class="topbar-icons">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </div>
+  </header>
+
+  <!-- PROFILE HEADER -->
+  <section class="profile-header">
+    <div class="profile-top">
+      <div class="avatar-wrap">
+        <div class="avatar-ring">
+          <div class="avatar-inner">
+            <!-- CONFIGURABLE: Replace src with your photo URL, or remove img and keep placeholder -->
+            <img id="profile-avatar-img" src="" onerror="this.style.display='none'; document.getElementById('avatar-placeholder').style.display='flex';" alt="Profile" style="display:none;" />
+            <span class="avatar-placeholder" id="avatar-placeholder">SS</span>
+          </div>
+        </div>
+      </div>
+      <div class="profile-stats" id="stats-container">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+
+    <div class="profile-bio" id="bio-container">
+      <!-- Injected by JS -->
+    </div>
+
+    <div class="profile-actions">
+      <button class="btn btn-primary" id="hire-btn">Hire Me</button>
+      <button class="btn btn-secondary" id="collab-btn">Collab</button>
+      <button class="btn-icon" title="Share">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- HIGHLIGHTS -->
+  <div class="highlights-section">
+    <div class="highlights-scroll" id="highlights-container">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="grid">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="0.5"/><rect x="14" y="3" width="7" height="7" rx="0.5"/><rect x="3" y="14" width="7" height="7" rx="0.5"/><rect x="14" y="14" width="7" height="7" rx="0.5"/></svg>
+    </button>
+    <button class="tab-btn" data-tab="reels">
+      <svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.277A1 1 0 0121 8.682v6.636a1 1 0 01-1.447.894L15 14"/><rect x="3" y="6" width="12" height="12" rx="2"/></svg>
+    </button>
+    <button class="tab-btn" data-tab="tagged">
+      <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+    </button>
+  </div>
+
+  <!-- GRID TAB -->
+  <div id="tab-grid" class="show">
+    <div class="media-grid" id="grid-container">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+
+  <!-- REELS TAB -->
+  <div id="tab-reels">
+    <div class="reels-grid" id="reels-container">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+
+  <!-- TAGGED / ABOUT TAB -->
+  <div id="tab-tagged">
+    <div class="cta-bar" style="margin: 18px; border-radius: 8px;">
+      <p>✦ Crafting <strong>scroll-stopping content</strong> for brands that want to stand out. Let's create something unforgettable.</p>
+      <div class="cta-links" id="contact-links">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+
+    <!-- Services list -->
+    <div style="padding: 0 18px 24px;" id="services-container">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-nav="portfolio">
+      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg>
+      Portfolio
+    </button>
+    <button class="nav-btn" data-nav="contact" id="contact-nav-btn">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      Contact
+    </button>
+    <button class="nav-btn" data-nav="instagram" id="insta-nav-btn">
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      Instagram
+    </button>
+  </nav>
+
+</div><!-- #app -->
+
+<!-- ============================================================
+     LIGHTBOX
+============================================================ -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-header">
+    <div class="lb-avatar">
+      <img id="lb-avatar-img" src="" onerror="this.style.display='none'; document.getElementById('lb-avatar-placeholder').style.display='flex';" alt="" style="display:none;" />
+      <span class="lb-avatar-placeholder" id="lb-avatar-placeholder">S</span>
+    </div>
+    <div class="lb-user">
+      <span class="lb-username" id="lb-username">surbhisaini_28</span>
+      <span class="lb-client" id="lb-client-name"></span>
+    </div>
+    <button class="lb-close" id="lb-close-btn">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div class="lb-content">
+    <div id="lb-media-area"></div>
+
+    <div class="lb-details">
+      <div class="lb-actions">
+        <div class="lb-action-group">
+          <button class="lb-action-btn" id="lb-like-btn">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
+          </button>
+          <button class="lb-action-btn">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </button>
+          <button class="lb-action-btn">
+            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+        <button class="lb-action-btn">
+          <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        </button>
+      </div>
+      <p class="lb-likes" id="lb-likes"></p>
+      <div class="lb-caption" id="lb-caption-area"></div>
+      <div class="lb-tags" id="lb-tags-area"></div>
+      <p class="lb-date" id="lb-date"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   ██████╗  ██████╗ ███╗   ██╗███████╗██╗ ██████╗
+   ██╔════╝██╔═══██╗████╗  ██║██╔════╝██║██╔════╝
+   ██║     ██║   ██║██╔██╗ ██║█████╗  ██║██║  ███╗
+   ██║     ██║   ██║██║╚██╗██║██╔══╝  ██║██║   ██║
+   ╚██████╗╚██████╔╝██║ ╚████║██║     ██║╚██████╔╝
+    ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝     ╚═╝ ╚═════╝
+
+   ALL YOUR PORTFOLIO CONFIG LIVES HERE.
+   Edit this section freely — the website auto-updates.
+================================================================ */
+
+/* ---------------------------------------------------------------
+   1. PROFILE  — your personal details
+--------------------------------------------------------------- */
+const PROFILE = {
+  username:     "surbhisaini_28",              // your handle shown in top bar
+  displayName:  "Surbhi Saini",               // full display name
+  role:         "Social Media Manager",        // shown under name
+  avatarUrl:    "",                            // URL to your profile photo (leave "" to use initials)
+  bio:          `📍 Ludhiana, India\nCreating thumb-stopping content for cafés, salons & lifestyle brands.\nI turn your brand into a scroll-stopper. ✨`,
+  websiteLabel: "surbhisaini_28 on Instagram",
+  websiteUrl:   "https://www.instagram.com/surbhisaini_28/",
+  tags:         ["Reels", "Branding", "Content Strategy", "IG Growth"],
+
+  // Stats shown on profile
+  stats: [
+    { num: "48",  label: "Projects" },
+    { num: "1.2K", label: "Followers" },
+    { num: "98%", label: "Happy Clients" },
+  ],
+
+  // Contact details — shown in the About tab & Contact button
+  email:       "surbhisaini1728@gmail.com",
+  instagram:   "https://www.instagram.com/surbhisaini_28/",
+  phone:       "+918279923067",
+  whatsapp:    "https://wa.me/918279923067",
+};
+
+/* ---------------------------------------------------------------
+   2. HIGHLIGHTS  — your Instagram-style story highlights
+   Use an emoji OR a photo URL for the icon
+--------------------------------------------------------------- */
+const HIGHLIGHTS = [
+  { label: "Cafés",    icon: "☕",  photoUrl: "" },
+  { label: "Salons",   icon: "✂️",  photoUrl: "" },
+  { label: "Food",     icon: "🍽️",  photoUrl: "" },
+  { label: "BTS",      icon: "🎬",  photoUrl: "" },
+  { label: "Awards",   icon: "🏆",  photoUrl: "" },
+  { label: "Process",  icon: "⚙️",  photoUrl: "" },
+];
+
+/* ---------------------------------------------------------------
+   3. PORTFOLIO ITEMS  — all images & videos
+
+   type: "image"  → provide imageUrl (Imgbb, Cloudinary free tier, etc.)
+   type: "vimeo"  → provide vimeoId (the number in vimeo.com/XXXXXXX)
+                    + thumbUrl (Vimeo thumbnail — see README section below)
+                    + portrait: true  → uses 9:16 aspect ratio in lightbox
+
+   orientation in grid:
+     "square" (default), "portrait", "landscape"
+     — the grid always crops to square; orientation only affects lightbox
+
+   The array order = display order on the grid.
+--------------------------------------------------------------- */
+const PORTFOLIO = [
+  // ── VIDEOS (Vimeo) ────────────────────────────────────────
+  {
+    id: "v1",
+    type: "vimeo",
+    vimeoId: "76979871",             // ← Replace with YOUR Vimeo video ID
+    thumbUrl: "https://vumbnail.com/76979871.jpg",   // auto-generated by vumbnail.com
+    client: "Brew & Co. Café",
+    caption: "Morning vibes reel for the grand opening — showcasing the artisan coffee menu and cosy interiors.",
+    tags: ["#café", "#coffeeshop", "#reels", "#ludhiana"],
+    date: "May 2025",
+    likes: "1.4K",
+    portrait: true,
+  },
+  {
+    id: "v2",
+    type: "vimeo",
+    vimeoId: "76979871",             // ← Replace with YOUR Vimeo video ID
+    thumbUrl: "https://vumbnail.com/76979871.jpg",
+    client: "Glam Studio Salon",
+    caption: "Transformation Tuesday reel — before & after hair colour campaign that got 200K+ views.",
+    tags: ["#salon", "#haircolor", "#transformation", "#reels"],
+    date: "April 2025",
+    likes: "2.1K",
+    portrait: true,
+  },
+  // ── IMAGES ────────────────────────────────────────────────
+  {
+    id: "i1",
+    type: "image",
+    imageUrl: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",  // ← Replace with your image URL
+    client: "Brew & Co. Café",
+    caption: "Flat-lay product shoot for the new seasonal latte menu. Shot with natural window light.",
+    tags: ["#coffeephotography", "#flatlay", "#foodstyling"],
+    date: "May 2025",
+    likes: "876",
+  },
+  {
+    id: "i2",
+    type: "image",
+    imageUrl: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80",  // ← Replace
+    client: "Glam Studio Salon",
+    caption: "Behind-the-scenes content series for the salon rebrand launch.",
+    tags: ["#salon", "#behindthescenes", "#branding"],
+    date: "March 2025",
+    likes: "543",
+  },
+  {
+    id: "v3",
+    type: "vimeo",
+    vimeoId: "76979871",             // ← Replace
+    thumbUrl: "https://vumbnail.com/76979871.jpg",
+    client: "Spice Route Restaurant",
+    caption: "Food reel capturing the theatre of live cooking — tawa, flames, and plating magic.",
+    tags: ["#foodreel", "#restaurant", "#foodstyling"],
+    date: "February 2025",
+    likes: "3.2K",
+    portrait: true,
+  },
+  {
+    id: "i3",
+    type: "image",
+    imageUrl: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80",  // ← Replace
+    client: "Brew & Co. Café",
+    caption: "Aesthetic grid post series — earthy tones, latte art close-ups.",
+    tags: ["#aesthetic", "#coffeegram", "#instamood"],
+    date: "January 2025",
+    likes: "1.1K",
+  },
+  {
+    id: "i4",
+    type: "image",
+    imageUrl: "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&q=80",  // ← Replace
+    client: "Glam Studio Salon",
+    caption: "Neon-lit interior shoot for the salon's new booked-out service campaign.",
+    tags: ["#salonlife", "#interiorphotography", "#neon"],
+    date: "December 2024",
+    likes: "789",
+  },
+  {
+    id: "v4",
+    type: "vimeo",
+    vimeoId: "76979871",             // ← Replace
+    thumbUrl: "https://vumbnail.com/76979871.jpg",
+    client: "Velvet Lounge Bar",
+    caption: "Cocktail reel — slow motion pour shots that drove a 40% spike in weekend bookings.",
+    tags: ["#cocktails", "#bartender", "#reels", "#nightlife"],
+    date: "November 2024",
+    likes: "4.7K",
+    portrait: false,
+  },
+  {
+    id: "i5",
+    type: "image",
+    imageUrl: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80",  // ← Replace
+    client: "Velvet Lounge Bar",
+    caption: "Moodboard-style grid post for the bar's anniversary week campaign.",
+    tags: ["#bar", "#anniversary", "#nightout"],
+    date: "October 2024",
+    likes: "622",
+  },
+];
+
+/* ---------------------------------------------------------------
+   4. SERVICES  — shown in the About tab
+--------------------------------------------------------------- */
+const SERVICES = [
+  { icon: "🎬", title: "Reels Production",       desc: "End-to-end shoot, edit & publish for Instagram Reels that stop the scroll." },
+  { icon: "📸", title: "Content Photography",     desc: "Product, lifestyle & interior shoots optimised for social media formats." },
+  { icon: "📈", title: "IG Growth Strategy",      desc: "Hashtag research, caption writing & posting schedules that grow your following." },
+  { icon: "✏️", title: "Brand Identity & Grids",  desc: "Cohesive feed aesthetics, highlight covers & story templates." },
+  { icon: "📊", title: "Analytics & Reporting",   desc: "Monthly performance decks with actionable insights for your brand." },
+];
+
+/* ================================================================
+   END OF CONFIG — no need to edit below this line
+================================================================ */
+
+// ── Helpers ────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+
+// ── Build Profile ──────────────────────────────────────────────
+function buildProfile() {
+  // Avatar
+  if (PROFILE.avatarUrl) {
+    $('profile-avatar-img').src = PROFILE.avatarUrl;
+    $('profile-avatar-img').style.display = 'block';
+    $('avatar-placeholder').style.display = 'none';
+    $('lb-avatar-img').src = PROFILE.avatarUrl;
+    $('lb-avatar-img').style.display = 'block';
+    $('lb-avatar-placeholder').style.display = 'none';
+  }
+
+  // Stats
+  $('stats-container').innerHTML = PROFILE.stats.map(s => `
+    <div class="stat">
+      <span class="stat-num">${s.num}</span>
+      <span class="stat-label">${s.label}</span>
+    </div>
+  `).join('');
+
+  // Bio
+  $('bio-container').innerHTML = `
+    <span class="bio-name">${PROFILE.displayName}</span>
+    <span class="bio-role">${PROFILE.role}</span>
+    <p class="bio-text">${PROFILE.bio}</p>
+    <a href="${PROFILE.websiteUrl}" class="bio-link" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+      ${PROFILE.websiteLabel}
+    </a>
+    <div class="bio-tags">${PROFILE.tags.map(t=>`<span class="bio-tag">${t}</span>`).join('')}</div>
+  `;
+
+  // Lightbox username
+  $('lb-username').textContent = PROFILE.username;
+  $('lb-avatar-placeholder').textContent = PROFILE.displayName[0];
+
+  // Hire button → phone call
+  $('hire-btn').onclick = () => { window.location.href = `tel:${PROFILE.phone}`; };
+  $('collab-btn').onclick = () => { window.location.href = `mailto:${PROFILE.email}`; };
+}
+
+// ── Build Highlights ───────────────────────────────────────────
+function buildHighlights() {
+  $('highlights-container').innerHTML = HIGHLIGHTS.map(h => `
+    <div class="highlight-item">
+      <div class="highlight-ring">
+        <div class="highlight-icon-inner">
+          ${h.photoUrl
+            ? `<img src="${h.photoUrl}" alt="${h.label}" />`
+            : `<span>${h.icon}</span>`}
+        </div>
+      </div>
+      <span class="highlight-label">${h.label}</span>
+    </div>
+  `).join('');
+}
+
+// ── Build Grid ─────────────────────────────────────────────────
+function buildGrid() {
+  $('grid-container').innerHTML = PORTFOLIO.map((item, i) => {
+    const thumb = item.type === 'image' ? item.imageUrl : item.thumbUrl;
+    const badge = item.type === 'vimeo' ? `
+      <div class="grid-item-badge">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 3l14 9-14 9V3z"/>
+        </svg>
+      </div>` : '';
+    return `
+      <div class="grid-item fade-in" style="animation-delay:${i*0.04}s" data-id="${item.id}" onclick="openLightbox('${item.id}')">
+        ${item.type === 'vimeo' ? `
+          <div class="vimeo-thumb-wrap">
+            <img src="${thumb}" alt="${item.client}" loading="lazy" />
+            <div class="play-overlay">
+              <div class="play-btn-circle">
+                <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+              </div>
+            </div>
+          </div>` : `
+          <img src="${thumb}" alt="${item.client}" loading="lazy" />`
+        }
+        ${badge}
+        <div class="grid-overlay">
+          <span class="grid-stat">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
+            ${item.likes}
+          </span>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── Build Reels Tab ────────────────────────────────────────────
+function buildReels() {
+  const reels = PORTFOLIO.filter(p => p.type === 'vimeo');
+  $('reels-container').innerHTML = reels.map((item, i) => `
+    <div class="reel-item fade-in" style="animation-delay:${i*0.06}s" onclick="openLightbox('${item.id}')">
+      <img class="reel-thumb" src="${item.thumbUrl}" alt="${item.client}" loading="lazy" />
+      <div class="reel-info">
+        <span class="reel-client">${item.client}</span>
+        <p class="reel-caption">${item.caption}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── Build About / Tagged Tab ────────────────────────────────────
+function buildAbout() {
+  // Contact links
+  $('contact-links').innerHTML = `
+    <a href="tel:${PROFILE.phone}" class="cta-link">
+      <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.08h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Call
+    </a>
+    <a href="mailto:${PROFILE.email}" class="cta-link">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Email
+    </a>
+    <a href="${PROFILE.whatsapp}" class="cta-link" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+      WhatsApp
+    </a>
+    <a href="${PROFILE.instagram}" class="cta-link" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      Instagram
+    </a>
+  `;
+
+  // Services
+  $('services-container').innerHTML = `
+    <p style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:14px;">Services</p>
+    ${SERVICES.map(s => `
+      <div style="display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border);">
+        <span style="font-size:1.4rem;flex-shrink:0;margin-top:2px;">${s.icon}</span>
+        <div>
+          <p style="font-size:0.88rem;font-weight:500;color:var(--text);margin-bottom:3px;">${s.title}</p>
+          <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.5;">${s.desc}</p>
+        </div>
+      </div>`).join('')}
+  `;
+}
+
+// ── LIGHTBOX ───────────────────────────────────────────────────
+let currentLiked = false;
+
+function openLightbox(id) {
+  const item = PORTFOLIO.find(p => p.id === id);
+  if (!item) return;
+
+  // Media area
+  let mediaHTML = '';
+  if (item.type === 'vimeo') {
+    const portrait = item.portrait !== false; // default portrait
+    mediaHTML = `
+      <div class="lb-vimeo-wrap ${portrait ? 'portrait' : ''}">
+        <iframe
+          src="https://player.vimeo.com/video/${item.vimeoId}?autoplay=1&title=0&byline=0&portrait=0&color=c9a96e"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>`;
+  } else {
+    mediaHTML = `<img class="lb-media-img" src="${item.imageUrl}" alt="${item.client}" />`;
+  }
+
+  $('lb-media-area').innerHTML = mediaHTML;
+  $('lb-client-name').textContent = item.client;
+
+  // Caption
+  const shortCaption = item.caption.length > 80
+    ? item.caption.slice(0, 80) + '…'
+    : item.caption;
+  $('lb-caption-area').innerHTML = `
+    <strong>${PROFILE.username}</strong>
+    <span id="lb-caption-short">${shortCaption}</span>
+    ${item.caption.length > 80 ? `<span class="lb-more" onclick="expandCaption()"> more</span>
+    <span class="lb-caption-full" id="lb-caption-full"> ${item.caption.slice(80)}</span>` : ''}
+  `;
+
+  // Tags
+  $('lb-tags-area').innerHTML = (item.tags || []).map(t => `<span class="lb-tag">${t}</span>`).join('');
+
+  // Date & likes
+  $('lb-likes').textContent = `${item.likes} likes`;
+  $('lb-date').textContent = item.date;
+
+  // Like button reset
+  currentLiked = false;
+  $('lb-like-btn').classList.remove('liked');
+
+  $('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function expandCaption() {
+  const full = $('lb-caption-full');
+  const short = $('lb-caption-short');
+  if (full) { full.style.display = 'inline'; }
+  if (short) { short.textContent = $('lb-caption-area').textContent.split('…')[0].replace(PROFILE.username, '').trim(); }
+  document.querySelector('.lb-more')?.remove();
+}
+
+function closeLightbox() {
+  $('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+  // Stop vimeo
+  $('lb-media-area').innerHTML = '';
+}
+
+$('lb-close-btn').onclick = closeLightbox;
+$('lightbox').onclick = e => { if (e.target === $('lightbox')) closeLightbox(); };
+
+$('lb-like-btn').onclick = () => {
+  currentLiked = !currentLiked;
+  $('lb-like-btn').classList.toggle('liked', currentLiked);
+};
+
+// Swipe to close on mobile
+let touchStartY = 0;
+$('lightbox').addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+$('lightbox').addEventListener('touchend', e => {
+  if (e.changedTouches[0].clientY - touchStartY > 80) closeLightbox();
+}, { passive: true });
+
+// ── TABS ───────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = btn.dataset.tab;
+    ['grid','reels','tagged'].forEach(t => {
+      $(`tab-${t}`).classList.toggle('show', t === tab);
+    });
+  });
+});
+
+// ── BOTTOM NAV ─────────────────────────────────────────────────
+$('contact-nav-btn').onclick = () => {
+  // Switch to About tab
+  document.querySelector('[data-tab="tagged"]').click();
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  $('contact-nav-btn').classList.add('active');
+};
+$('insta-nav-btn').onclick = () => {
+  window.open(PROFILE.instagram, '_blank');
+};
+
+// ── KEYBOARD ───────────────────────────────────────────────────
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// ── INIT ───────────────────────────────────────────────────────
+buildProfile();
+buildHighlights();
+buildGrid();
+buildReels();
+buildAbout();
+</script>
+</body>
+</html>
