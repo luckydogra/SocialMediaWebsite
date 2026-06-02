@@ -46,16 +46,32 @@ h1{font-size:4rem;line-height:1.1}
 .video{position:relative;padding-bottom:177.77%;height:0;border-radius:16px;overflow:hidden;background:#000;}
 .video iframe{position:absolute;inset:0;width:100%;height:100%;border:none;pointer-events:none;}
 
-/* Refactored Instagram-Style Play Overlay Button */
+/* Initial Semi-transparent Dimming Mask for Paused States */
+.video::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 5;
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+/* Completely clear out shading backdrop overlay layer when active */
+.video.playing::before {
+  opacity: 0;
+}
+
+/* Central Overlay Control Button Interaction Module */
 .control-btn {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  width: 60px;
-  height: 60px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  width: 66px;
+  height: 66px;
   border-radius: 50%;
   cursor: pointer;
   z-index: 10;
@@ -64,58 +80,26 @@ h1{font-size:4rem;line-height:1.1}
   justify-content: center;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  opacity: 0; /* Hidden while video is playing natively */
-  pointer-events: none; /* Let clicks pass through when playing */
+  opacity: 1; /* Intentionally visible on load when all videos are paused */
+  pointer-events: auto;
   transition: opacity 0.2s ease, transform 0.2s;
 }
 
-/* Make button visible and clickable only when video parent is explicitely paused */
-.video.paused .control-btn {
-  opacity: 1;
-  pointer-events: auto;
+/* Automatically hide button from view cleanly when video playing natively */
+.video.playing .control-btn {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .control-btn svg {
-  width: 24px;
-  height: 24px;
-  fill: rgba(255, 255, 255, 0.85);
-  transition: fill 0.2s;
+  width: 26px;
+  height: 26px;
+  fill: rgba(255, 255, 255, 0.9);
+  transition: fill 0.2s, transform 0.2s;
 }
 .control-btn:hover svg {
   fill: var(--accent);
-}
-
-/* Instagram Style Local Tap-To-Unmute Overlay (Confined inside the Video frame) */
-.audio-prompt-overlay {
-  position: absolute;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 8px 16px;
-  border-radius: 20px;
-  color: #fff;
-  font-size: 0.85rem;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  z-index: 20;
-  pointer-events: none; /* Allows clicks to cascade straight into video play triggers */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.audio-prompt-overlay.hidden {
-  opacity: 0;
-  transform: translate(-50%, -10px);
-}
-.audio-prompt-overlay svg {
-  width: 16px;
-  height: 16px;
-  fill: #fff;
+  transform: scale(1.05);
 }
 
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
@@ -154,14 +138,14 @@ const SERVICES=[
 ];
 
 const PORTFOLIO=[
-{v:"1197513107",t:"Cafe Campaign",c:"A day in the life at the café — from brewing the perfect cup to plating fresh pastries, every moment crafted with love. ☕🥐", tags: ["cafe", "coffeeshop", "pastry", "#bts"]},
-{v:"1197513025",t:"Mother's Day Campaign",c:"Happy Mother's Day 💐🎂 Celebrating the most special person with a gorgeous hamper filled with cake, flowers & all things love.", tags: ["mothersday", "#hamper", "cake", "flowers", "gift-ideas"]},
-{v:"1197512994",t:"Coffee & Maggi Reel",c:"Coffee & Maggi — the ultimate comfort combo. Four vibes, one screen. ☕🍜 Which one are you today?", tags: ["coffee", "maggi", "cafevibes", "comfortfood"]},
+{v:"1197513107",t:"Cafe Campaign",c:"A day in the life at the café — from brewing the perfect cup to plating fresh pastries, every moment crafted with love. ☕🥐", tags: ["cafe", "coffeeshop", "pastry", "#BTS"]},
+{v:"1197513025",t:"Mother's Day Campaign",c:"Happy Mother's Day 💐🎂 Celebrating the most special person with a gorgeous hamper filled with cake, flowers & all things love.", tags: ["Mother's Day", "#hamper", "cake", "flowers", "gift-ideas"]},
+{v:"1197512994",t:"Coffee & Maggi Reel",c:"Coffee & Maggi — the ultimate comfort combo. Four vibes, one screen. ☕🍜 Which one are you today?", tags: ["coffee", "maggi", "cafevibes", "Comfort Food"]},
 {v:"1197512905",t:"Brownie Sundae Reel",c:"Watch that rich chocolate pour over our Brownie Sundae 🍫🍨 Pure indulgence in every frame.", tags: ["brownie-sundae", "chocolate", "dessert", "icecream", "foodreel"]},
-{v:"1197512936",t:"Matcha Process Reel",c:"The art of matcha 🍵✨ Nine steps, one perfect cup — from sifting to the final pour, every stage is a ritual.", tags: ["#matcha", "matcha-latte", "cafe process", "green-tea"]},
+{v:"1197512936",t:"Matcha Process Reel",c:"The art of matcha 🍵✨ Nine steps, one perfect cup — from sifting to the final pour, every stage is a ritual.", tags: ["#matcha", "matcha-latte", "Cafe Process", "green-tea"]},
 {v:"1197512998",t:"Christmas Cafe Reel",c:"Christmas at the café ✨🎄 Warm lights, cosy corners, and the best company — this is your holiday vibe sorted.", tags: ["christmas", "cafevibes", "cozy", "holiday-season", "christmas-reel"]},
 {v:"1197513065",t:"Resort Showcase",c:"Escape into greenery 🌿 Lush landscapes, open skies, and the serene beauty of a resort that feels like paradise.", tags: ["resort", "nature", "greenery", "travel", "outdoor"]},
-{v:"1197512901",t:"Cafe Ambience Reel",c:"Your favourite café, inside out ☕🏡 From the cosy outdoor seating to the warm indoor ambiance — this is your happy place.", tags: ["cafe", "#coffeelover", "cafe-vibes", "aesthetic", "#favoritecafe"]},
+{v:"1197512901",t:"Cafe Ambience Reel",c:"Your favourite café, inside out ☕🏡 From the cosy outdoor seating to the warm indoor ambiance — this is your happy place.", tags: ["cafe", "#Coffee Lover", "cafe-vibes", "aesthetic", "#favoritecafe"]},
 {v:"1197512903",t:"Strawberry Matcha Reel",c:"Our bestseller for a reason 🍵🍓 Watch the Strawberry Matcha come to life — layered, vibrant and absolutely irresistible.", tags: ["strawberrymatcha", "bestseller", "matcha"]},
 {v:"1197512902",t:"Biscoff Cheesecake Reel",c:"Biscoff Cheesecake — because some things deserve a slow reveal 🍰✨ Creamy, dreamy, and dangerously good.", tags: ["#biscoffcheesecake", "cheesecake", "biscoff", "dessert", "bakery"]},
 {v:"1197513020",t:"Plum Cake Campaign",c:"Plum cake season is here 🎶🍰 Jingle bells and the smell of fresh plum cake — the holidays don't get better than this.", tags: ["plumcake", "christmas", "#jinglebells", "holiday-baking", "festive-bakes"]},
@@ -199,6 +183,7 @@ const PORTFOLIO=[
 
 <section>
 <div class="container">
+<div class="metrics">
 <div class="metrics">
 <div class="metric"><h3>20+</h3><p>Reels Created</p></div>
 <div class="metric"><h3>5+</h3><p>Brands Worked With</p></div>
@@ -254,18 +239,14 @@ document.getElementById("bio").textContent=PROFILE.bio;
 document.getElementById("servicesGrid").innerHTML=SERVICES.map(s=>
 `<div class="service"><h3>${s[0]} ${s[1]}</h3><p>${s[2]}</p></div>`).join("");
 
-// SVG definitions for Play & Mute graphics
+// Pure SVG configuration definition for the Play symbol icon overlay
 const PLAY_SVG = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
-const MUTE_SVG = `<svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM12 4L9.17 6.83 12 9.66V4zm-8.27-.27L2.36 5.11 7.25 10H3v4h3l5 5v-6.27l4.3 4.3c-.56.43-1.19.78-1.8.97v2.04c1.16-.25 2.22-.8 3.12-1.53l3.22 3.22 1.37-1.37L3.73 3.73z"/></svg>`;
 
-// Render cards dynamically. Note the audio prompt overlay is embedded INSIDE each video module.
+// Render elements inside work array list container logic
 document.getElementById("workList").innerHTML=PORTFOLIO.map((item, index)=>`
 <div class="work-card">
 <div class="work-grid">
 <div class="video" onclick="togglePlayPauseOnClick(${index})">
-<div class="audio-prompt-overlay unique-audio-prompt">
-  ${MUTE_SVG} <span>Tap for Sound</span>
-</div>
 <iframe
   id="vimeo-player-${index}"
   src="https://player.vimeo.com/video/${item.v}?autoplay=0&muted=1&background=1&loop=1"
@@ -287,62 +268,55 @@ ${(item.tags || []).map(tag => `<span class="tag">${tag.replace('#', '')}</span>
 </div>
 `).join("");
 
-// Global Control Variables
-let soundEnabled = false;
+// Global Active Configuration Trackers
+let soundEnabled = false; 
 let activePlayerIndex = null;
 const players = [];
 
-// 1. Auto-play loop setup configuration
+// Initialize all iframe object references into Vimeo Player arrays (Muted and Paused on initial document load)
 PORTFOLIO.forEach((item, index) => {
   const iframe = document.getElementById(`vimeo-player-${index}`);
   const player = new Vimeo.Player(iframe);
   players[index] = player;
 
   player.setMuted(true);
-  player.play();
+  player.pause(); 
 });
 
-// Helper configuration to cycle class token tags to handle display layouts
-function updateButtonState(index, paused) {
+// Sync visual states using the structural tokens
+function updateVisualState(index, isPlaying) {
   const videoContainer = document.querySelectorAll(".video")[index];
   if (videoContainer) {
-    if (paused) {
-      videoContainer.classList.add("paused");
+    if (isPlaying) {
+      videoContainer.classList.add("playing");
     } else {
-      videoContainer.classList.remove("paused");
+      videoContainer.classList.remove("playing");
     }
   }
 }
 
-// Dismiss all embedded audio indicators from inside the video containers permanently
-function hideAllAudioPrompts() {
-  document.querySelectorAll(".unique-audio-prompt").forEach(prompt => {
-    prompt.classList.add("hidden");
-    setTimeout(() => prompt.remove(), 300);
-  });
-}
-
-// 3. Main Play / Sound Integration Handler configuration
+// Global Core Playback Activation Module Handler
 function handleVideoPlayback(index) {
-  soundEnabled = true;
+  soundEnabled = true; // Unlock the universal audio playback state context tracking globally
   activePlayerIndex = index;
-  hideAllAudioPrompts();
 
   players.forEach((player, i) => {
     if (i === index) {
       player.play().then(() => {
         player.setMuted(false);
         player.setVolume(1);
-        updateButtonState(i, false);
+        updateVisualState(i, true);
       });
     } else {
+      player.pause();
       player.setMuted(true);
       player.setVolume(0);
+      updateVisualState(i, false);
     }
   });
 }
 
-// Custom integration to support canvas tap actions to toggle play/pause smoothly 
+// Click and Touch Canvas Interactivity logic setup
 function togglePlayPauseOnClick(index) {
   const player = players[index];
   if (!player) return;
@@ -352,12 +326,12 @@ function togglePlayPauseOnClick(index) {
       handleVideoPlayback(index);
     } else {
       player.pause();
-      updateButtonState(index, true);
+      updateVisualState(index, false);
     }
   });
 }
 
-// 2 & 4. Setup smart context observer layouts
+// Intelligent Intersection Observer tracking scrolling alignments across viewport bounding fields
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     const index = parseInt(entry.target.dataset.index);
@@ -365,32 +339,35 @@ const observer = new IntersectionObserver((entries) => {
     if (!player) return;
 
     if (entry.isIntersecting) {
-      player.play();
-      updateButtonState(index, false);
+      // ONLY switch on automatic play sequences if user interaction history flag matches
+      if (soundEnabled) {
+        player.play();
+        updateVisualState(index, true);
 
-      // 4. Auto-transfer sound profiles dynamically across valid viewports
-      if (soundEnabled && activePlayerIndex !== index) {
-        players.forEach((p, i) => {
-          if (i === index) {
-            p.setMuted(false);
-            p.setVolume(1);
-          } else {
-            p.setMuted(true);
-            p.setVolume(0);
-          }
-        });
-        activePlayerIndex = index;
+        if (activePlayerIndex !== index) {
+          players.forEach((p, i) => {
+            if (i === index) {
+              p.setMuted(false);
+              p.setVolume(1);
+            } else {
+              p.setMuted(true);
+              p.setVolume(0);
+              updateVisualState(i, false);
+            }
+          });
+          activePlayerIndex = index;
+        }
       }
     } else {
       player.pause();
-      updateButtonState(index, true);
+      updateVisualState(index, false);
     }
   });
 }, {
   threshold: 0.6
 });
 
-// Bind target objects to run on screen calculations
+// Map datasets indexes to target items elements inside document layout markup tree
 document.querySelectorAll(".video").forEach((video, index) => {
   video.dataset.index = index;
   observer.observe(video);
