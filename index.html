@@ -41,69 +41,10 @@ h1{font-size:4rem;line-height:1.1}
 .work-list{display:flex;flex-direction:column;gap:40px}
 .work-card{padding:24px}
 .work-grid{display:grid;grid-template-columns:390px 1fr;gap:32px}
-
-/* Enhanced Video Container */
-.video{position:relative;padding-bottom:177.77%;height:0;border-radius:16px;overflow:hidden;background:#000;}
-.video iframe{position:absolute;inset:0;width:100%;height:100%;border:none;pointer-events:none;}
-
-/* Initial Semi-transparent Dimming Mask for Paused States */
-.video::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 5;
-  opacity: 1;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
-/* Completely clear out shading backdrop overlay layer when active */
-.video.playing::before {
-  opacity: 0;
-}
-
-/* Central Overlay Control Button Interaction Module */
-.control-btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  width: 66px;
-  height: 66px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  opacity: 1; /* Intentionally visible on load when all videos are paused */
-  pointer-events: auto;
-  transition: opacity 0.2s ease, transform 0.2s;
-}
-
-/* Automatically hide button from view cleanly when video playing natively */
-.video.playing .control-btn {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.control-btn svg {
-  width: 26px;
-  height: 26px;
-  fill: rgba(255, 255, 255, 0.9);
-  transition: fill 0.2s, transform 0.2s;
-}
-.control-btn:hover svg {
-  fill: var(--accent);
-  transform: scale(1.05);
-}
-
+.video{position:relative;padding-bottom:177.77%;height:0;border-radius:16px;overflow:hidden}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.tag{padding:6px 10px;border-radius:999px;background:#222;color:var(--accent);font-size:.85rem;text-transform: capitalize;}
+.tag{padding:6px 10px;border-radius:999px;background:#222;color:var(--accent);font-size:.85rem}
 .contact{text-align:center}
 .contact-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:20px}
 .contact-links a{padding:14px 18px;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);text-decoration:none}
@@ -115,7 +56,6 @@ h1{font-size:2.6rem}
 .metrics{grid-template-columns:repeat(2,1fr)}
 }
 </style>
-<script src="https://player.vimeo.com/api/player.js"></script>
 </head>
 <body>
 
@@ -145,13 +85,13 @@ const PORTFOLIO=[
 {v:"1197512936",t:"Matcha Process Reel",c:"The art of matcha 🍵✨ Nine steps, one perfect cup — from sifting to the final pour, every stage is a ritual.", tags: ["#matcha", "matcha-latte", "Cafe Process", "green-tea"]},
 {v:"1197512998",t:"Christmas Cafe Reel",c:"Christmas at the café ✨🎄 Warm lights, cosy corners, and the best company — this is your holiday vibe sorted.", tags: ["christmas", "cafevibes", "cozy", "holiday-season", "christmas-reel"]},
 {v:"1197513065",t:"Resort Showcase",c:"Escape into greenery 🌿 Lush landscapes, open skies, and the serene beauty of a resort that feels like paradise.", tags: ["resort", "nature", "greenery", "travel", "outdoor"]},
-{v:"1197512901",t:"Cafe Ambience Reel",c:"Your favourite café, inside out ☕🏡 From the cosy outdoor seating to the warm indoor ambiance — this is your happy place.", tags: ["cafe", "#Coffee Lover", "cafe-vibes", "aesthetic", "#favoritecafe"]},
-{v:"1197512903",t:"Strawberry Matcha Reel",c:"Our bestseller for a reason 🍵🍓 Watch the Strawberry Matcha come to life — layered, vibrant and absolutely irresistible.", tags: ["strawberrymatcha", "bestseller", "matcha"]},
+{v:"1197512901",t:"Cafe Ambience Reel",c:"Your favourite café, inside out ☕🏡 From the cosy outdoor seating to the warm indoor ambiance — this is your happy place.", tags: ["cafe", "#Coffee Lover", "cafe-vibes", "aesthetic", "Favorite Cafe"]},
+{v:"1197512903",t:"Strawberry Matcha Reel",c:"Our bestseller for a reason 🍵🍓 Watch the Strawberry Matcha come to life — layered, vibrant and absolutely irresistible.", tags: ["Strawberry Matcha", "bestseller", "matcha"]},
 {v:"1197512902",t:"Biscoff Cheesecake Reel",c:"Biscoff Cheesecake — because some things deserve a slow reveal 🍰✨ Creamy, dreamy, and dangerously good.", tags: ["#biscoffcheesecake", "cheesecake", "biscoff", "dessert", "bakery"]},
-{v:"1197513020",t:"Plum Cake Campaign",c:"Plum cake season is here 🎶🍰 Jingle bells and the smell of fresh plum cake — the holidays don't get better than this.", tags: ["plumcake", "christmas", "#jinglebells", "holiday-baking", "festive-bakes"]},
-{v:"1197513090",t:"Cakes & Pastries Reel",c:"Slice after slice of happiness 🎂🔪 Cakes and pastries that are almost too pretty to cut — almost.", tags: ["cakes", "pastry", "cakecutting", "bakery", "#dessertlover"]},
-{v:"1197513016",t:"Summer Drinks Reel",c:"Shake it up this summer ☀️🍵 Matcha and coffee — shaken, not stirred — your new favourite warm-weather drink.", tags: ["summerdrink", "matcha", "coffee", "#summervibes"]},
-{v:"1197513097",t:"Oreo Cheesecake Reel",c:"Oreo Cheesecake 🖤🍪 Layers of creamy cheesecake and crushed Oreo bliss — the collab nobody asked for but everybody needed.", tags: ["@oreocheesecake", "cheesecake", "oreo", "dessert", "cakedessert"]}
+{v:"1197513020",t:"Plum Cake Campaign",c:"Plum cake season is here 🎶🍰 Jingle bells and the smell of fresh plum cake — the holidays don't get better than this.", tags: ["plumcake", "christmas", "JingleBells", "holiday-baking", "festive-bakes"]},
+{v:"1197513090",t:"Cakes & Pastries Reel",c:"Slice after slice of happiness 🎂🔪 Cakes and pastries that are almost too pretty to cut — almost.", tags: ["cakes", "pastry", "CakeCutting", "bakery", "DessertLover"]},
+{v:"1197513016",t:"Summer Drinks Reel",c:"Shake it up this summer ☀️🍵 Matcha and coffee — shaken, not stirred — your new favourite warm-weather drink.", tags: ["summerdrink", "matcha", "coffee", "SummerVibes"]},
+{v:"1197513097",t:"Oreo Cheesecake Reel",c:"Oreo Cheesecake 🖤🍪 Layers of creamy cheesecake and crushed Oreo bliss — the collab nobody asked for but everybody needed.", tags: ["OreoCheeseCake", "CheeseCake", "oreo", "dessert", "cakedessert"]}
 ];
 </script>
 
@@ -183,7 +123,6 @@ const PORTFOLIO=[
 
 <section>
 <div class="container">
-<div class="metrics">
 <div class="metrics">
 <div class="metric"><h3>20+</h3><p>Reels Created</p></div>
 <div class="metric"><h3>5+</h3><p>Brands Worked With</p></div>
@@ -239,139 +178,25 @@ document.getElementById("bio").textContent=PROFILE.bio;
 document.getElementById("servicesGrid").innerHTML=SERVICES.map(s=>
 `<div class="service"><h3>${s[0]} ${s[1]}</h3><p>${s[2]}</p></div>`).join("");
 
-// Pure SVG configuration definition for the Play symbol icon overlay
-const PLAY_SVG = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
-
-// Render elements inside work array list container logic
-document.getElementById("workList").innerHTML=PORTFOLIO.map((item, index)=>`
+document.getElementById("workList").innerHTML=PORTFOLIO.map(item=>`
 <div class="work-card">
 <div class="work-grid">
-<div class="video" onclick="togglePlayPauseOnClick(${index})">
+<div class="video">
 <iframe
-  id="vimeo-player-${index}"
-  src="https://player.vimeo.com/video/${item.v}?autoplay=0&muted=1&background=1&loop=1"
+  src="https://player.vimeo.com/video/${item.v}"
   frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
   allowfullscreen>
 </iframe>
-<button class="control-btn" id="btn-${index}" onclick="event.stopPropagation(); handleVideoPlayback(${index});">
-  ${PLAY_SVG}
-</button>
 </div>
 <div>
 <h3>${item.t}</h3>
 <p class="muted">${item.c}</p>
-<div class="tags">
 ${(item.tags || []).map(tag => `<span class="tag">${tag.replace('#', '')}</span>`).join('')}
 </div>
 </div>
 </div>
 </div>
 `).join("");
-
-// Global Active Configuration Trackers
-let soundEnabled = false; 
-let activePlayerIndex = null;
-const players = [];
-
-// Initialize all iframe object references into Vimeo Player arrays (Muted and Paused on initial document load)
-PORTFOLIO.forEach((item, index) => {
-  const iframe = document.getElementById(`vimeo-player-${index}`);
-  const player = new Vimeo.Player(iframe);
-  players[index] = player;
-
-  player.setMuted(true);
-  player.pause(); 
-});
-
-// Sync visual states using the structural tokens
-function updateVisualState(index, isPlaying) {
-  const videoContainer = document.querySelectorAll(".video")[index];
-  if (videoContainer) {
-    if (isPlaying) {
-      videoContainer.classList.add("playing");
-    } else {
-      videoContainer.classList.remove("playing");
-    }
-  }
-}
-
-// Global Core Playback Activation Module Handler
-function handleVideoPlayback(index) {
-  soundEnabled = true; // Unlock the universal audio playback state context tracking globally
-  activePlayerIndex = index;
-
-  players.forEach((player, i) => {
-    if (i === index) {
-      player.play().then(() => {
-        player.setMuted(false);
-        player.setVolume(1);
-        updateVisualState(i, true);
-      });
-    } else {
-      player.pause();
-      player.setMuted(true);
-      player.setVolume(0);
-      updateVisualState(i, false);
-    }
-  });
-}
-
-// Click and Touch Canvas Interactivity logic setup
-function togglePlayPauseOnClick(index) {
-  const player = players[index];
-  if (!player) return;
-
-  player.getPaused().then(function(paused) {
-    if (paused) {
-      handleVideoPlayback(index);
-    } else {
-      player.pause();
-      updateVisualState(index, false);
-    }
-  });
-}
-
-// Intelligent Intersection Observer tracking scrolling alignments across viewport bounding fields
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    const index = parseInt(entry.target.dataset.index);
-    const player = players[index];
-    if (!player) return;
-
-    if (entry.isIntersecting) {
-      // ONLY switch on automatic play sequences if user interaction history flag matches
-      if (soundEnabled) {
-        player.play();
-        updateVisualState(index, true);
-
-        if (activePlayerIndex !== index) {
-          players.forEach((p, i) => {
-            if (i === index) {
-              p.setMuted(false);
-              p.setVolume(1);
-            } else {
-              p.setMuted(true);
-              p.setVolume(0);
-              updateVisualState(i, false);
-            }
-          });
-          activePlayerIndex = index;
-        }
-      }
-    } else {
-      player.pause();
-      updateVisualState(index, false);
-    }
-  });
-}, {
-  threshold: 0.6
-});
-
-// Map datasets indexes to target items elements inside document layout markup tree
-document.querySelectorAll(".video").forEach((video, index) => {
-  video.dataset.index = index;
-  observer.observe(video);
-});
 
 callLink.href=`tel:${PROFILE.phone}`;
 emailLink.href=`mailto:${PROFILE.email}`;
