@@ -7,278 +7,493 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
---bg:#0a0a0a;--surface:#171717;--border:#2b2b2b;--accent:#c9a96e;
---text:#f5f5f5;--muted:#9a9a9a;--max:1180px;
+  --bg:#0a0a0a;--surface:#171717;--border:#2b2b2b;--accent:#c9a96e;
+  --text:#f5f5f5;--muted:#9a9a9a;--max:1180px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:Inter,sans-serif;line-height:1.6}
+body{background:var(--bg);color:var(--text);font-family:Inter,sans-serif;line-height:1.6;overflow-x:hidden}
 .container{max-width:var(--max);margin:auto;padding:0 18px}
 section{padding:34px 0}
 nav{position:sticky;top:0;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:99}
-nav .container{display:flex;justify-content:space-between;padding:18px 24px}
-nav a{color:var(--text);text-decoration:none;margin-left:24px}
-.hero{min-height:80vh;display:flex;align-items:center}
-.hero-grid{display:grid;grid-template-columns:280px 1fr;gap:60px;align-items:center}
-.avatar{width:280px;height:280px;border-radius:24px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:72px;font-family:Playfair Display}
+nav .container{display:flex;justify-content:space-between;align-items:center;padding:18px 24px}
+nav a{color:var(--text);text-decoration:none;margin-left:24px;font-size:.9rem}
 h1,h2{font-family:Playfair Display,serif}
 h1{font-size:4rem;line-height:1.1}
 .subtitle{color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px}
 .lead{margin-top:16px;color:var(--muted);max-width:700px}
 .btns{display:flex;gap:14px;margin-top:28px;flex-wrap:wrap}
-.btn{padding:14px 22px;border-radius:12px;text-decoration:none}
-.primary{background:var(--accent);color:#000}
-.secondary{border:1px solid var(--border);color:var(--text)}
-.metrics,.services,.industries{display:grid;gap:20px}
-.metrics{grid-template-columns:repeat(4,1fr)}
-.metric,.service,.industry,.work-card{background:var(--surface);border:1px solid var(--border);border-radius:20px}
-.metric{text-align:center;padding:24px}
-.metric h3{color:var(--accent);font-size:2rem}
-.services{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.service,.industry{padding:22px}
-.industries{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.btn{padding:14px 22px;border-radius:12px;text-decoration:none;cursor:pointer;border:none;font-family:Inter,sans-serif;font-size:1rem}
+.primary{background:var(--accent);color:#000;font-weight:600}
+.secondary{border:1px solid var(--border);color:var(--text);background:transparent}
+
+/* HERO — no avatar */
+.hero{min-height:70vh;display:flex;align-items:center}
+.hero-inner{max-width:700px}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:20px;text-align:center;padding:24px}
+.metric h3{color:var(--accent);font-size:2rem;font-family:Playfair Display}
+
+/* SERVICES */
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.service{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px}
+
+/* INDUSTRIES */
+.industries{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}
+.industry{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px}
+
 .section-title{font-size:2.6rem;margin-bottom:30px}
 .work-list{display:flex;flex-direction:column;gap:18px}
-.work-card{padding:14px;overflow:hidden}
-.work-grid{display:grid;grid-template-columns:390px 1fr;gap:32px}
-.video{position:relative;padding-bottom:177.77%;height:0;border-radius:16px;overflow:hidden}
-.video iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-.tags{display:flex;flex-wrap:nowrap;gap:6px;margin-top:10px;overflow:hidden}
-.tag{padding:4px 8px;border-radius:999px;background:#222;color:var(--accent);font-size:.75rem;white-space:nowrap}
+
+/* ── WORK CARD ── */
+.work-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:14px;
+  overflow:hidden; /* critical — clips child content */
+}
+.work-grid{
+  display:grid;
+  grid-template-columns:min(390px,42%) 1fr;
+  gap:32px;
+  align-items:start;
+}
+
+/* ── VIDEO CONTAINER (9:16) — stays inside card ── */
+.video-wrap{
+  width:100%;
+  position:relative;
+  border-radius:12px;
+  overflow:hidden;
+  background:#000;
+}
+.video-wrap::before{
+  content:'';
+  display:block;
+  padding-bottom:177.78%; /* 9:16 */
+}
+.video-wrap iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:none;
+  display:block;
+}
+
+/* card text */
+.work-info{padding:4px 0;min-width:0}
+.work-info h3{font-size:1.1rem;margin-bottom:6px}
+.work-info .muted{font-size:.88rem;line-height:1.5;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tag{padding:4px 10px;border-radius:999px;background:#222;color:var(--accent);font-size:.72rem}
+
+/* CONTACT */
 .contact{text-align:center}
 .contact-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:20px}
 .contact-links a{padding:14px 18px;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);text-decoration:none}
 .muted{color:var(--muted)}
 
+/* TABS */
+.tab-btn{padding:12px 22px;border-radius:12px;border:1px solid var(--border);cursor:pointer;font-size:.95rem;font-weight:600;font-family:Inter,sans-serif}
+.tab-btn.active{background:var(--accent);color:#000;border-color:var(--accent)}
+.tab-btn.inactive{background:var(--surface);color:var(--muted)}
+
+/* ── PHOTO GRID ── */
+.photo-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.photo-thumb{
+  width:100%;
+  aspect-ratio:4/5;
+  object-fit:cover;
+  border-radius:12px;
+  border:1px solid var(--border);
+  cursor:pointer;
+  display:block;
+  transition:opacity .2s,transform .2s;
+  background:var(--surface);
+}
+.photo-thumb:hover{opacity:.85;transform:scale(1.02)}
+
+/* ── LIGHTBOX ── */
+.lightbox{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  background:rgba(0,0,0,.95);
+  align-items:center;
+  justify-content:center;
+}
+.lightbox.open{display:flex}
+.lb-img{
+  max-width:min(90vw, 520px);
+  max-height:90dvh;
+  object-fit:contain;
+  border-radius:10px;
+  display:block;
+  user-select:none;
+}
+.lb-close{
+  position:absolute;
+  top:16px;right:18px;
+  background:rgba(255,255,255,.12);
+  border:none;
+  color:#fff;
+  font-size:1.4rem;
+  width:40px;height:40px;
+  border-radius:50%;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.lb-close:hover{background:rgba(255,255,255,.25)}
+.lb-arrow{
+  position:absolute;
+  top:50%;transform:translateY(-50%);
+  background:rgba(255,255,255,.12);
+  border:none;
+  color:#fff;
+  width:44px;height:44px;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:1.3rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+  z-index:1;
+}
+.lb-arrow:hover{background:rgba(201,169,110,.7)}
+.lb-prev{left:14px}
+.lb-next{right:14px}
+.lb-counter{
+  position:absolute;
+  bottom:18px;left:50%;transform:translateX(-50%);
+  font-size:.78rem;color:rgba(255,255,255,.55);
+  letter-spacing:.08em;
+}
+/* loading spinner inside lightbox */
+.lb-spinner{
+  display:none;
+  width:36px;height:36px;
+  border:3px solid rgba(255,255,255,.15);
+  border-top-color:var(--accent);
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+  position:absolute;
+}
+.lb-spinner.show{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── RESPONSIVE ── */
 @media(max-width:900px){
-.hero-grid,.work-grid{grid-template-columns:1fr}
-.avatar{margin:auto;width:80px;height:80px;border-radius:16px;font-size:28px}
-.hero{min-height:auto;padding:20px 0}
-h1{font-size:2rem}
-.subtitle{font-size:.72rem;margin-bottom:4px}
-.lead{font-size:.9rem;margin-top:8px}
-.metrics{grid-template-columns:repeat(2,1fr)}
-section{padding:18px 0}
-.section-title{font-size:1.8rem;margin-bottom:16px}
-.metric{padding:14px}
-.metric h3{font-size:1.4rem}
-.work-grid{gap:10px}
-.work-card h3{font-size:1rem}
-.work-card .muted{font-size:.82rem;line-height:1.35}
-.video{padding-bottom:177.77%;width:100%;max-width:100%;overflow:hidden}
-iframe{max-width:100%}
-nav .container{padding:12px 18px}
-.btns{margin-top:14px}
-.tags{white-space:nowrap}
+  .hero{min-height:auto;padding:28px 0 20px}
+  h1{font-size:2.2rem}
+  .subtitle{font-size:.72rem;margin-bottom:4px}
+  .lead{font-size:.88rem;margin-top:8px}
+  .btns{margin-top:14px}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  section{padding:20px 0}
+  .section-title{font-size:1.8rem;margin-bottom:16px}
+  .metric{padding:14px}
+  .metric h3{font-size:1.4rem}
+  /* Stack video + info vertically on mobile */
+  .work-grid{grid-template-columns:1fr;gap:12px}
+  .work-info h3{font-size:1rem}
+  .work-info .muted{font-size:.82rem}
+  nav .container{padding:12px 18px}
+  .photo-grid{grid-template-columns:repeat(3,1fr);gap:6px}
+  .lb-arrow{width:36px;height:36px;font-size:1rem}
+  .lb-prev{left:6px}
+  .lb-next{right:6px}
 }
-
-
-.tab-btn{
-padding:14px 22px;
-border-radius:12px;
-border:1px solid var(--border);
-cursor:pointer;
-font-size:1rem;
-font-weight:600;
-}
-.tab-btn.active{
-background:var(--accent);
-color:#000;
-}
-.tab-btn.inactive{
-background:#d9d9d9;
-color:#111 !important;
-}
-
 </style>
 </head>
 <body>
 
 <script>
 const PROFILE={
-name:"Surbhi Saini",
-role:"Social Media Manager & Content Creator",
-bio:"Creating scroll-stopping reels, photography and content strategies for cafés, restaurants, resorts and lifestyle brands.",
-phone:"+918279923067",
-email:"surbhisaini1728@gmail.com",
-instagram:"https://www.instagram.com/surbhisaini_28/",
-whatsapp:"https://wa.me/918279923067"
+  name:"Surbhi Saini",
+  role:"Social Media Manager & Content Creator",
+  bio:"Creating scroll-stopping reels, photography and content strategies for cafés, restaurants, resorts and lifestyle brands.",
+  phone:"+918279923067",
+  email:"surbhisaini1728@gmail.com",
+  instagram:"https://www.instagram.com/surbhisaini_28/",
+  whatsapp:"https://wa.me/918279923067"
 };
 
 const SERVICES=[
-["🎬","Reels Production","End-to-end shoot, edit and publishing."],
-["📸","Content Photography","Professional content for social media."],
-["📈","Growth Strategy","Content planning and audience growth."],
-["📊","Analytics","Performance reporting and insights."]
+  ["🎬","Reels Production","End-to-end shoot, edit and publishing."],
+  ["📸","Content Photography","Professional content for social media."],
+  ["📈","Growth Strategy","Content planning and audience growth."],
+  ["📊","Analytics","Performance reporting and insights."]
 ];
 
 const PHOTOS=[
-    "https://5b9cihazs0.ucarecd.net/3738276a-86ce-479e-8f3d-02d794289bd2/1.JPG",
-    "https://5b9cihazs0.ucarecd.net/f2b4653a-1809-4ab6-b4de-2c4eca334af9/2.jpg",
-    "https://5b9cihazs0.ucarecd.net/0c0071d3-5855-4c66-aae1-bceb07e6f574/3.jpg",
-    "https://5b9cihazs0.ucarecd.net/17de3c54-2be8-4ef7-bf78-91da8968e912/4.JPG",
-    "https://5b9cihazs0.ucarecd.net/769b5b23-7d2d-4c19-881f-c11973d40675/5.jpg",
-    "https://5b9cihazs0.ucarecd.net/30aac0ba-b763-45ed-a5c7-650a459d0e33/6.jpg",
-    "https://5b9cihazs0.ucarecd.net/72e049d9-8fc0-421f-8703-a8ad27f71574/7.JPG",
-    "https://5b9cihazs0.ucarecd.net/bb39743b-a01f-423c-8be3-4d46bf8ca96f/8.jpg",
-    "https://5b9cihazs0.ucarecd.net/158304a6-7a23-4073-9653-d9dcf78f8580/9.jpg",
-    "https://5b9cihazs0.ucarecd.net/fa2cd0dc-c432-4d66-94d6-00e4f5c0a7d7/10.JPG",
-    "https://5b9cihazs0.ucarecd.net/2ee9fe4b-d4ca-4080-b7c2-54def6730f0c/11.jpg",
-    "https://5b9cihazs0.ucarecd.net/356967c9-9d4c-46c5-a83a-57d92051ec09/12.JPG",
-    "https://5b9cihazs0.ucarecd.net/8e13e481-5d6f-4690-84f1-ce0ed5a4c654/13.jpg",
-    "https://5b9cihazs0.ucarecd.net/a68357f7-dd72-4315-8642-44d0875867f2/14.jpg",
-    "https://5b9cihazs0.ucarecd.net/24a3faa8-b2ef-45f1-80ea-1adc1d101339/15.jpg",
-    "https://5b9cihazs0.ucarecd.net/b727f47a-71db-4964-8c7b-6107da034e49/16.jpg",
-    "https://5b9cihazs0.ucarecd.net/864ef25b-7187-42cb-9cd5-9287aa918b29/17.jpg",
-    "https://5b9cihazs0.ucarecd.net/b01dd82d-1031-4980-abd9-15abb3d7d525/18.jpg",
+  "https://5b9cihazs0.ucarecd.net/3738276a-86ce-479e-8f3d-02d794289bd2/1.JPG",
+  "https://5b9cihazs0.ucarecd.net/f2b4653a-1809-4ab6-b4de-2c4eca334af9/2.jpg",
+  "https://5b9cihazs0.ucarecd.net/0c0071d3-5855-4c66-aae1-bceb07e6f574/3.jpg",
+  "https://5b9cihazs0.ucarecd.net/17de3c54-2be8-4ef7-bf78-91da8968e912/4.JPG",
+  "https://5b9cihazs0.ucarecd.net/769b5b23-7d2d-4c19-881f-c11973d40675/5.jpg",
+  "https://5b9cihazs0.ucarecd.net/30aac0ba-b763-45ed-a5c7-650a459d0e33/6.jpg",
+  "https://5b9cihazs0.ucarecd.net/72e049d9-8fc0-421f-8703-a8ad27f71574/7.JPG",
+  "https://5b9cihazs0.ucarecd.net/bb39743b-a01f-423c-8be3-4d46bf8ca96f/8.jpg",
+  "https://5b9cihazs0.ucarecd.net/158304a6-7a23-4073-9653-d9dcf78f8580/9.jpg",
+  "https://5b9cihazs0.ucarecd.net/fa2cd0dc-c432-4d66-94d6-00e4f5c0a7d7/10.JPG",
+  "https://5b9cihazs0.ucarecd.net/2ee9fe4b-d4ca-4080-b7c2-54def6730f0c/11.jpg",
+  "https://5b9cihazs0.ucarecd.net/356967c9-9d4c-46c5-a83a-57d92051ec09/12.JPG",
+  "https://5b9cihazs0.ucarecd.net/8e13e481-5d6f-4690-84f1-ce0ed5a4c654/13.jpg",
+  "https://5b9cihazs0.ucarecd.net/a68357f7-dd72-4315-8642-44d0875867f2/14.jpg",
+  "https://5b9cihazs0.ucarecd.net/24a3faa8-b2ef-45f1-80ea-1adc1d101339/15.jpg",
+  "https://5b9cihazs0.ucarecd.net/b727f47a-71db-4964-8c7b-6107da034e49/16.jpg",
+  "https://5b9cihazs0.ucarecd.net/864ef25b-7187-42cb-9cd5-9287aa918b29/17.jpg",
+  "https://5b9cihazs0.ucarecd.net/b01dd82d-1031-4980-abd9-15abb3d7d525/18.jpg",
 ];
 
 const PORTFOLIO=[
-{v:"1197513107",t:"Cafe Campaign",c:"A day in the life at the café — from brewing the perfect cup to plating fresh pastries, every moment crafted with love. ☕🥐", tags: ["cafe", "coffeeshop", "pastry", "#BTS"]},
-{v:"1197513025",t:"Mother's Day Campaign",c:"Happy Mother's Day 💐🎂 Celebrating the most special person with a gorgeous hamper filled with cake, flowers & all things love.", tags: ["Mother's Day", "#hamper", "cake", "flowers", "gift-ideas"]},
-{v:"1197512994",t:"Coffee & Maggi Reel",c:"Coffee & Maggi — the ultimate comfort combo. Four vibes, one screen. ☕🍜 Which one are you today?", tags: ["coffee", "maggi", "cafevibes", "Comfort Food"]},
-{v:"1197512905",t:"Brownie Sundae Reel",c:"Watch that rich chocolate pour over our Brownie Sundae 🍫🍨 Pure indulgence in every frame.", tags: ["brownie-sundae", "chocolate", "dessert", "icecream", "foodreel"]},
-{v:"1197512936",t:"Matcha Process Reel",c:"The art of matcha 🍵✨ Nine steps, one perfect cup — from sifting to the final pour, every stage is a ritual.", tags: ["#matcha", "matcha-latte", "Cafe Process", "green-tea"]},
-{v:"1197512998",t:"Christmas Cafe Reel",c:"Christmas at the café ✨🎄 Warm lights, cosy corners, and the best company — this is your holiday vibe sorted.", tags: ["christmas", "cafevibes", "cozy", "holiday-season", "christmas-reel"]},
-{v:"1197513065",t:"Resort Showcase",c:"Escape into greenery 🌿 Lush landscapes, open skies, and the serene beauty of a resort that feels like paradise.", tags: ["resort", "nature", "greenery", "travel", "outdoor"]},
-{v:"1197512901",t:"Cafe Ambience Reel",c:"Your favourite café, inside out ☕🏡 From the cosy outdoor seating to the warm indoor ambiance — this is your happy place.", tags: ["cafe", "#Coffee Lover", "cafe-vibes", "aesthetic", "Favorite Cafe"]},
-{v:"1197512903",t:"Strawberry Matcha Reel",c:"Our bestseller for a reason 🍵🍓 Watch the Strawberry Matcha come to life — layered, vibrant and absolutely irresistible.", tags: ["Strawberry Matcha", "bestseller", "matcha"]},
-{v:"1197512902",t:"Biscoff Cheesecake Reel",c:"Biscoff Cheesecake — because some things deserve a slow reveal 🍰✨ Creamy, dreamy, and dangerously good.", tags: ["#biscoffcheesecake", "cheesecake", "biscoff", "dessert", "bakery"]},
-{v:"1197513020",t:"Plum Cake Campaign",c:"Plum cake season is here 🎶🍰 Jingle bells and the smell of fresh plum cake — the holidays don't get better than this.", tags: ["plumcake", "christmas", "JingleBells", "holiday-baking", "festive-bakes"]},
-{v:"1197513090",t:"Cakes & Pastries Reel",c:"Slice after slice of happiness 🎂🔪 Cakes and pastries that are almost too pretty to cut — almost.", tags: ["cakes", "pastry", "CakeCutting", "bakery", "DessertLover"]},
-{v:"1197513016",t:"Summer Drinks Reel",c:"Shake it up this summer ☀️🍵 Matcha and coffee — shaken, not stirred — your new favourite warm-weather drink.", tags: ["summerdrink", "matcha", "coffee", "SummerVibes"]},
-{v:"1197513097",t:"Oreo Cheesecake Reel",c:"Oreo Cheesecake 🖤🍪 Layers of creamy cheesecake and crushed Oreo bliss — the collab nobody asked for but everybody needed.", tags: ["OreoCheeseCake", "CheeseCake", "oreo", "dessert", "cakedessert"]}
+  {v:"1197513107",t:"Cafe Campaign",c:"A day in the life at the café — from brewing the perfect cup to plating fresh pastries, every moment crafted with love. ☕🥐",tags:["cafe","coffeeshop","pastry","BTS"]},
+  {v:"1197513025",t:"Mother's Day Campaign",c:"Happy Mother's Day 💐🎂 Celebrating the most special person with a gorgeous hamper filled with cake, flowers & all things love.",tags:["Mother's Day","hamper","cake","flowers","gift-ideas"]},
+  {v:"1197512994",t:"Coffee & Maggi Reel",c:"Coffee & Maggi — the ultimate comfort combo. Four vibes, one screen. ☕🍜 Which one are you today?",tags:["coffee","maggi","cafevibes","Comfort Food"]},
+  {v:"1197512905",t:"Brownie Sundae Reel",c:"Watch that rich chocolate pour over our Brownie Sundae 🍫🍨 Pure indulgence in every frame.",tags:["brownie-sundae","chocolate","dessert","icecream","foodreel"]},
+  {v:"1197512936",t:"Matcha Process Reel",c:"The art of matcha 🍵✨ Nine steps, one perfect cup — from sifting to the final pour, every stage is a ritual.",tags:["matcha","matcha-latte","Cafe Process","green-tea"]},
+  {v:"1197512998",t:"Christmas Cafe Reel",c:"Christmas at the café ✨🎄 Warm lights, cosy corners, and the best company — this is your holiday vibe sorted.",tags:["christmas","cafevibes","cozy","holiday-season"]},
+  {v:"1197513065",t:"Resort Showcase",c:"Escape into greenery 🌿 Lush landscapes, open skies, and the serene beauty of a resort that feels like paradise.",tags:["resort","nature","greenery","travel","outdoor"]},
+  {v:"1197512901",t:"Cafe Ambience Reel",c:"Your favourite café, inside out ☕🏡 From the cosy outdoor seating to the warm indoor ambiance — this is your happy place.",tags:["cafe","Coffee Lover","cafe-vibes","aesthetic"]},
+  {v:"1197512903",t:"Strawberry Matcha Reel",c:"Our bestseller for a reason 🍵🍓 Watch the Strawberry Matcha come to life — layered, vibrant and absolutely irresistible.",tags:["Strawberry Matcha","bestseller","matcha"]},
+  {v:"1197512902",t:"Biscoff Cheesecake Reel",c:"Biscoff Cheesecake — because some things deserve a slow reveal 🍰✨ Creamy, dreamy, and dangerously good.",tags:["biscoffcheesecake","cheesecake","biscoff","dessert","bakery"]},
+  {v:"1197513020",t:"Plum Cake Campaign",c:"Plum cake season is here 🎶🍰 Jingle bells and the smell of fresh plum cake — the holidays don't get better than this.",tags:["plumcake","christmas","JingleBells","holiday-baking"]},
+  {v:"1197513090",t:"Cakes & Pastries Reel",c:"Slice after slice of happiness 🎂🔪 Cakes and pastries that are almost too pretty to cut — almost.",tags:["cakes","pastry","CakeCutting","bakery","DessertLover"]},
+  {v:"1197513016",t:"Summer Drinks Reel",c:"Shake it up this summer ☀️🍵 Matcha and coffee — shaken, not stirred — your new favourite warm-weather drink.",tags:["summerdrink","matcha","coffee","SummerVibes"]},
+  {v:"1197513097",t:"Oreo Cheesecake Reel",c:"Oreo Cheesecake 🖤🍪 Layers of creamy cheesecake and crushed Oreo bliss — the collab nobody asked for but everybody needed.",tags:["OreoCheeseCake","CheeseCake","oreo","dessert"]}
 ];
 </script>
 
+<!-- NAV -->
 <nav>
-<div class="container">
-<strong>Surbhi Saini</strong>
-<div>
-<a href="#services">Services</a>
-<a href="#work">Work</a>
-<a href="#contact">Contact</a>
-</div>
-</div>
+  <div class="container">
+    <strong style="font-family:Playfair Display,serif;font-size:1.1rem">Surbhi Saini</strong>
+    <div>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
 </nav>
 
+<!-- HERO — no avatar -->
 <section class="hero">
-<div class="container hero-grid">
-<div class="avatar">SS</div>
-<div>
-<div class="subtitle">Social Media Manager</div>
-<h1>Creating content people stop scrolling for.</h1>
-<p class="lead" id="bio"></p>
-<div class="btns">
-<a href="#work" class="btn primary">View Work</a>
-<a href="#contact" class="btn secondary">Contact Me</a>
-</div>
-</div>
-</div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="subtitle">Social Media Manager</div>
+      <h1>Creating content people stop scrolling for.</h1>
+      <p class="lead" id="bio"></p>
+      <div class="btns">
+        <a href="#work" class="btn primary">View Work</a>
+        <a href="#contact" class="btn secondary">Contact Me</a>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- METRICS -->
 <section>
-<div class="container">
-<div class="metrics">
-<div class="metric"><h3>20+</h3><p>Reels Created</p></div>
-<div class="metric"><h3>5+</h3><p>Brands Worked With</p></div>
-<div class="metric"><h3>98%</h3><p>Client Satisfaction</p></div>
-<div class="metric"><h3>Pan India</h3><p>Available</p></div>
-</div>
-</div>
+  <div class="container">
+    <div class="metrics">
+      <div class="metric"><h3>20+</h3><p>Reels Created</p></div>
+      <div class="metric"><h3>5+</h3><p>Brands Worked With</p></div>
+      <div class="metric"><h3>98%</h3><p>Client Satisfaction</p></div>
+      <div class="metric"><h3>Pan India</h3><p>Available</p></div>
+    </div>
+  </div>
 </section>
 
+<!-- SERVICES -->
 <section id="services">
-<div class="container">
-<h2 class="section-title">Services</h2>
-<div class="services" id="servicesGrid"></div>
-</div>
+  <div class="container">
+    <h2 class="section-title">Services</h2>
+    <div class="services" id="servicesGrid"></div>
+  </div>
 </section>
 
+<!-- INDUSTRIES -->
 <section>
-<div class="container">
-<h2 class="section-title">Industries</h2>
-<div class="industries">
-<div class="industry">☕ Cafés</div>
-<div class="industry">🍰 Bakeries</div>
-<div class="industry">🏨 Hotels</div>
-<div class="industry">🌿 Resorts</div>
-<div class="industry">✂️ Salons</div>
-</div>
-</div>
+  <div class="container">
+    <h2 class="section-title">Industries</h2>
+    <div class="industries">
+      <div class="industry">☕ Cafés</div>
+      <div class="industry">🍰 Bakeries</div>
+      <div class="industry">🏨 Hotels</div>
+      <div class="industry">🌿 Resorts</div>
+      <div class="industry">✂️ Salons</div>
+    </div>
+  </div>
 </section>
 
+<!-- WORK -->
 <section id="work">
-<div class="container">
-<h2 class="section-title">Featured Work</h2>
-<div style="display:flex;gap:10px;margin-bottom:18px">
-<button class="tab-btn active" id="reelsTab" type="button">Reels</button>
-<button class="tab-btn inactive" id="photosTab" type="button">Photos</button>
-</div>
-<div class="work-list" id="workList"></div>
-</div>
+  <div class="container">
+    <h2 class="section-title">Featured Work</h2>
+    <div style="display:flex;gap:10px;margin-bottom:22px">
+      <button class="tab-btn active" id="reelsTab" type="button">Reels</button>
+      <button class="tab-btn inactive" id="photosTab" type="button">Photos</button>
+    </div>
+    <div class="work-list" id="workList"></div>
+  </div>
 </section>
 
+<!-- CONTACT -->
 <section id="contact" class="contact">
-<div class="container">
-<h2 class="section-title">Let's Create Something Amazing</h2>
-<p class="muted">Available for reels, photography, social media management and brand campaigns.</p>
-<div class="contact-links">
-<a id="callLink">Call</a>
-<a id="emailLink">Email</a>
-<a id="waLink">WhatsApp</a>
-<a id="igLink" target="_blank">Instagram</a>
-</div>
-</div>
+  <div class="container">
+    <h2 class="section-title">Let's Create Something Amazing</h2>
+    <p class="muted">Available for reels, photography, social media management and brand campaigns.</p>
+    <div class="contact-links">
+      <a id="callLink">📞 Call</a>
+      <a id="emailLink">✉️ Email</a>
+      <a id="waLink">💬 WhatsApp</a>
+      <a id="igLink" target="_blank">📷 Instagram</a>
+    </div>
+  </div>
 </section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="lbBgClose(event)">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <button class="lb-arrow lb-prev" onclick="lbNav(-1)">&#8592;</button>
+  <div class="lb-spinner" id="lbSpinner"></div>
+  <img class="lb-img" id="lbImg" src="" alt="" />
+  <button class="lb-arrow lb-next" onclick="lbNav(1)">&#8594;</button>
+  <span class="lb-counter" id="lbCounter"></span>
+</div>
 
 <script>
-document.getElementById("bio").textContent=PROFILE.bio;
+/* ── init ── */
+document.getElementById("bio").textContent = PROFILE.bio;
 
-document.getElementById("servicesGrid").innerHTML=SERVICES.map(s=>
-`<div class="service"><h3>${s[0]} ${s[1]}</h3><p>${s[2]}</p></div>`).join("");
+document.getElementById("servicesGrid").innerHTML = SERVICES.map(s =>
+  `<div class="service"><h3>${s[0]} ${s[1]}</h3><p>${s[2]}</p></div>`
+).join("");
 
+document.getElementById("callLink").href  = `tel:${PROFILE.phone}`;
+document.getElementById("emailLink").href = `mailto:${PROFILE.email}`;
+document.getElementById("waLink").href    = PROFILE.whatsapp;
+document.getElementById("igLink").href    = PROFILE.instagram;
 
-function renderReels(){
-document.getElementById("workList").innerHTML=PORTFOLIO.map(item=>`
-<div class="work-card">
-<div class="work-grid">
-<div class="video">
-<iframe src="https://player.vimeo.com/video/${item.v}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-</div>
-<div>
-<h3>${item.t}</h3>
-<p class="muted">${item.c}</p>
-<div class="tags">${(item.tags||[]).map(tag=>`<span class="tag">${tag.replace('#','')}</span>`).join('')}</div>
-</div>
-</div>
-</div>`).join("");
+/* ── RENDER REELS ── */
+function renderReels() {
+  document.getElementById("workList").innerHTML = PORTFOLIO.map(item => `
+    <div class="work-card">
+      <div class="work-grid">
+        <div class="video-wrap">
+          <iframe
+            src="https://player.vimeo.com/video/${item.v}?title=0&byline=0&portrait=0&color=c9a96e"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+        <div class="work-info">
+          <h3>${item.t}</h3>
+          <p class="muted">${item.c}</p>
+          <div class="tags">${(item.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        </div>
+      </div>
+    </div>`
+  ).join("");
 }
-function renderPhotos(){
-document.getElementById("workList").innerHTML=`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">${
-PHOTOS.map(p=>`<img src="${p}" style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px;border:1px solid var(--border)">`).join('')
-}</div>`;
+
+/* ── RENDER PHOTOS (thumbnail grid + lightbox) ── */
+function renderPhotos() {
+  document.getElementById("workList").innerHTML = `
+    <div class="photo-grid">
+      ${PHOTOS.map((url, i) => `
+        <img
+          class="photo-thumb"
+          src="${ucThumb(url)}"
+          data-full="${url}"
+          data-index="${i}"
+          alt="Photo ${i+1}"
+          loading="lazy"
+          onclick="openLightbox(${i})"
+        />`).join('')}
+    </div>`;
 }
+
+/* Uploadcare thumbnails — strip filename, append preview transform */
+function ucThumb(url) {
+  // Remove trailing filename like /1.JPG, /2.jpg, /10.JPG etc.
+  const base = url.replace(/\/[^/]+\.(jpe?g|png|webp|JPE?G|PNG|WEBP)$/, '');
+  return base + '/-/preview/';
+}
+
+/* ── LIGHTBOX ── */
+let lbIndex = 0;
+
+function openLightbox(i) {
+  lbIndex = i;
+  showLbImage(i);
+  document.getElementById("lightbox").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function showLbImage(i) {
+  const img = document.getElementById("lbImg");
+  const spinner = document.getElementById("lbSpinner");
+  img.style.opacity = "0";
+  spinner.classList.add("show");
+  img.onload = () => {
+    spinner.classList.remove("show");
+    img.style.transition = "opacity .25s";
+    img.style.opacity = "1";
+  };
+  img.src = PHOTOS[i];
+  document.getElementById("lbCounter").textContent = `${i + 1} / ${PHOTOS.length}`;
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+function lbBgClose(e) {
+  if (e.target === document.getElementById("lightbox")) closeLightbox();
+}
+
+function lbNav(dir) {
+  lbIndex = (lbIndex + dir + PHOTOS.length) % PHOTOS.length;
+  showLbImage(lbIndex);
+}
+
+document.addEventListener("keydown", e => {
+  if (!document.getElementById("lightbox").classList.contains("open")) return;
+  if (e.key === "ArrowRight") lbNav(1);
+  if (e.key === "ArrowLeft")  lbNav(-1);
+  if (e.key === "Escape")     closeLightbox();
+});
+
+/* Swipe support on lightbox */
+let tsX = 0;
+document.getElementById("lightbox").addEventListener("touchstart", e => { tsX = e.touches[0].clientX; }, {passive:true});
+document.getElementById("lightbox").addEventListener("touchend",   e => {
+  const dx = e.changedTouches[0].clientX - tsX;
+  if (Math.abs(dx) > 50) lbNav(dx < 0 ? 1 : -1);
+}, {passive:true});
+
+/* ── TABS ── */
 renderReels();
 
-reelsTab.onclick=()=>{
-renderReels();
-reelsTab.className='tab-btn active';
-photosTab.className='tab-btn inactive';
+document.getElementById("reelsTab").onclick = () => {
+  renderReels();
+  reelsTab.className  = "tab-btn active";
+  photosTab.className = "tab-btn inactive";
 };
-photosTab.onclick=()=>{
-renderPhotos();
-photosTab.className='tab-btn active';
-reelsTab.className='tab-btn inactive';
+document.getElementById("photosTab").onclick = () => {
+  renderPhotos();
+  photosTab.className = "tab-btn active";
+  reelsTab.className  = "tab-btn inactive";
 };
-
-
-
-callLink.href=`tel:${PROFILE.phone}`;
-emailLink.href=`mailto:${PROFILE.email}`;
-waLink.href=PROFILE.whatsapp;
-igLink.href=PROFILE.instagram;
 </script>
-
 </body>
 </html>
