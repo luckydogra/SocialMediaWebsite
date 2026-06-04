@@ -481,41 +481,19 @@ document.getElementById("lightbox").addEventListener("touchend",   e => {
   if (Math.abs(dx) > 50) lbNav(dx < 0 ? 1 : -1);
 }, {passive:true});
 
-/* ── TABS + HASH ROUTING ── */
-function activateTab(tab) {
-  if (tab === 'photos') {
-    renderPhotos();
-    photosTab.className = "tab-btn active";
-    reelsTab.className  = "tab-btn inactive";
-  } else {
-    renderReels();
-    reelsTab.className  = "tab-btn active";
-    photosTab.className = "tab-btn inactive";
-  }
-  document.getElementById('work').scrollIntoView({ behavior: 'smooth' });
-}
-
-// Init from hash on load
-const initHash = location.hash;
-if (initHash === '#photos') {
-  activateTab('photos');
-} else {
-  activateTab('reels');
-}
+/* ── TABS ── */
+renderReels();
 
 document.getElementById("reelsTab").onclick = () => {
-  history.pushState(null, '', '#reels');
-  activateTab('reels');
+  renderReels();
+  reelsTab.className  = "tab-btn active";
+  photosTab.className = "tab-btn inactive";
 };
 document.getElementById("photosTab").onclick = () => {
-  history.pushState(null, '', '#photos');
-  activateTab('photos');
+  renderPhotos();
+  photosTab.className = "tab-btn active";
+  reelsTab.className  = "tab-btn inactive";
 };
-
-// Handle browser back/forward
-window.addEventListener('popstate', () => {
-  activateTab(location.hash === '#photos' ? 'photos' : 'reels');
-});
 </script>
 </body>
 </html>
