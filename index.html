@@ -13,8 +13,8 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:Inter,sans-serif;line-height:1.6}
-.container{max-width:var(--max);margin:auto;padding:0 24px}
-section{padding:80px 0}
+.container{max-width:var(--max);margin:auto;padding:0 18px}
+section{padding:34px 0}
 nav{position:sticky;top:0;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:99}
 nav .container{display:flex;justify-content:space-between;padding:18px 24px}
 nav a{color:var(--text);text-decoration:none;margin-left:24px}
@@ -38,23 +38,58 @@ h1{font-size:4rem;line-height:1.1}
 .service,.industry{padding:22px}
 .industries{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
 .section-title{font-size:2.6rem;margin-bottom:30px}
-.work-list{display:flex;flex-direction:column;gap:40px}
-.work-card{padding:24px}
+.work-list{display:flex;flex-direction:column;gap:18px}
+.work-card{padding:14px;overflow:hidden}
 .work-grid{display:grid;grid-template-columns:390px 1fr;gap:32px}
 .video{position:relative;padding-bottom:177.77%;height:0;border-radius:16px;overflow:hidden}
 .video iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.tag{padding:6px 10px;border-radius:999px;background:#222;color:var(--accent);font-size:.85rem}
+.tags{display:flex;flex-wrap:nowrap;gap:6px;margin-top:10px;overflow:hidden}
+.tag{padding:4px 8px;border-radius:999px;background:#222;color:var(--accent);font-size:.75rem;white-space:nowrap}
 .contact{text-align:center}
 .contact-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:20px}
 .contact-links a{padding:14px 18px;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);text-decoration:none}
 .muted{color:var(--muted)}
+
 @media(max-width:900px){
 .hero-grid,.work-grid{grid-template-columns:1fr}
-.avatar{margin:auto;width:220px;height:220px}
-h1{font-size:2.6rem}
+.avatar{margin:auto;width:80px;height:80px;border-radius:16px;font-size:28px}
+.hero{min-height:auto;padding:20px 0}
+h1{font-size:2rem}
+.subtitle{font-size:.72rem;margin-bottom:4px}
+.lead{font-size:.9rem;margin-top:8px}
 .metrics{grid-template-columns:repeat(2,1fr)}
+section{padding:18px 0}
+.section-title{font-size:1.8rem;margin-bottom:16px}
+.metric{padding:14px}
+.metric h3{font-size:1.4rem}
+.work-grid{gap:10px}
+.work-card h3{font-size:1rem}
+.work-card .muted{font-size:.82rem;line-height:1.35}
+.video{padding-bottom:177.77%;width:100%;max-width:100%;overflow:hidden}
+iframe{max-width:100%}
+nav .container{padding:12px 18px}
+.btns{margin-top:14px}
+.tags{white-space:nowrap}
 }
+
+
+.tab-btn{
+padding:14px 22px;
+border-radius:12px;
+border:1px solid var(--border);
+cursor:pointer;
+font-size:1rem;
+font-weight:600;
+}
+.tab-btn.active{
+background:var(--accent);
+color:#000;
+}
+.tab-btn.inactive{
+background:#d9d9d9;
+color:#111 !important;
+}
+
 </style>
 </head>
 <body>
@@ -75,6 +110,27 @@ const SERVICES=[
 ["📸","Content Photography","Professional content for social media."],
 ["📈","Growth Strategy","Content planning and audience growth."],
 ["📊","Analytics","Performance reporting and insights."]
+];
+
+const PHOTOS=[
+    "https://5b9cihazs0.ucarecd.net/3738276a-86ce-479e-8f3d-02d794289bd2/1.JPG",
+    "https://5b9cihazs0.ucarecd.net/f2b4653a-1809-4ab6-b4de-2c4eca334af9/2.jpg",
+    "https://5b9cihazs0.ucarecd.net/0c0071d3-5855-4c66-aae1-bceb07e6f574/3.jpg",
+    "https://5b9cihazs0.ucarecd.net/17de3c54-2be8-4ef7-bf78-91da8968e912/4.JPG",
+    "https://5b9cihazs0.ucarecd.net/769b5b23-7d2d-4c19-881f-c11973d40675/5.jpg",
+    "https://5b9cihazs0.ucarecd.net/30aac0ba-b763-45ed-a5c7-650a459d0e33/6.jpg",
+    "https://5b9cihazs0.ucarecd.net/72e049d9-8fc0-421f-8703-a8ad27f71574/7.JPG",
+    "https://5b9cihazs0.ucarecd.net/bb39743b-a01f-423c-8be3-4d46bf8ca96f/8.jpg",
+    "https://5b9cihazs0.ucarecd.net/158304a6-7a23-4073-9653-d9dcf78f8580/9.jpg",
+    "https://5b9cihazs0.ucarecd.net/fa2cd0dc-c432-4d66-94d6-00e4f5c0a7d7/10.JPG",
+    "https://5b9cihazs0.ucarecd.net/2ee9fe4b-d4ca-4080-b7c2-54def6730f0c/11.jpg",
+    "https://5b9cihazs0.ucarecd.net/356967c9-9d4c-46c5-a83a-57d92051ec09/12.JPG",
+    "https://5b9cihazs0.ucarecd.net/8e13e481-5d6f-4690-84f1-ce0ed5a4c654/13.jpg",
+    "https://5b9cihazs0.ucarecd.net/a68357f7-dd72-4315-8642-44d0875867f2/14.jpg",
+    "https://5b9cihazs0.ucarecd.net/24a3faa8-b2ef-45f1-80ea-1adc1d101339/15.jpg",
+    "https://5b9cihazs0.ucarecd.net/b727f47a-71db-4964-8c7b-6107da034e49/16.jpg",
+    "https://5b9cihazs0.ucarecd.net/864ef25b-7187-42cb-9cd5-9287aa918b29/17.jpg",
+    "https://5b9cihazs0.ucarecd.net/b01dd82d-1031-4980-abd9-15abb3d7d525/18.jpg",
 ];
 
 const PORTFOLIO=[
@@ -155,6 +211,10 @@ const PORTFOLIO=[
 <section id="work">
 <div class="container">
 <h2 class="section-title">Featured Work</h2>
+<div style="display:flex;gap:10px;margin-bottom:18px">
+<button class="tab-btn active" id="reelsTab" type="button">Reels</button>
+<button class="tab-btn inactive" id="photosTab" type="button">Photos</button>
+</div>
 <div class="work-list" id="workList"></div>
 </div>
 </section>
@@ -178,25 +238,41 @@ document.getElementById("bio").textContent=PROFILE.bio;
 document.getElementById("servicesGrid").innerHTML=SERVICES.map(s=>
 `<div class="service"><h3>${s[0]} ${s[1]}</h3><p>${s[2]}</p></div>`).join("");
 
+
+function renderReels(){
 document.getElementById("workList").innerHTML=PORTFOLIO.map(item=>`
 <div class="work-card">
 <div class="work-grid">
 <div class="video">
-<iframe
-  src="https://player.vimeo.com/video/${item.v}"
-  frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
-  allowfullscreen>
-</iframe>
+<iframe src="https://player.vimeo.com/video/${item.v}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
 </div>
 <div>
 <h3>${item.t}</h3>
 <p class="muted">${item.c}</p>
-${(item.tags || []).map(tag => `<span class="tag">${tag.replace('#', '')}</span>`).join('')}
+<div class="tags">${(item.tags||[]).map(tag=>`<span class="tag">${tag.replace('#','')}</span>`).join('')}</div>
 </div>
 </div>
-</div>
-</div>
-`).join("");
+</div>`).join("");
+}
+function renderPhotos(){
+document.getElementById("workList").innerHTML=`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">${
+PHOTOS.map(p=>`<img src="${p}" style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px;border:1px solid var(--border)">`).join('')
+}</div>`;
+}
+renderReels();
+
+reelsTab.onclick=()=>{
+renderReels();
+reelsTab.className='tab-btn active';
+photosTab.className='tab-btn inactive';
+};
+photosTab.onclick=()=>{
+renderPhotos();
+photosTab.className='tab-btn active';
+reelsTab.className='tab-btn inactive';
+};
+
+
 
 callLink.href=`tel:${PROFILE.phone}`;
 emailLink.href=`mailto:${PROFILE.email}`;
