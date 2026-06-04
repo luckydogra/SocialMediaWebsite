@@ -280,6 +280,8 @@ const PORTFOLIO=[
     <div>
       <a href="#services">Services</a>
       <a href="#work">Work</a>
+      <a href="#reels" onclick="activateTab('reels')">Reels</a>
+      <a href="#photos" onclick="activateTab('photos')">Photos</a>
       <a href="#contact">Contact</a>
     </div>
   </div>
@@ -481,19 +483,41 @@ document.getElementById("lightbox").addEventListener("touchend",   e => {
   if (Math.abs(dx) > 50) lbNav(dx < 0 ? 1 : -1);
 }, {passive:true});
 
-/* ── TABS ── */
-renderReels();
+/* ── TABS + HASH ROUTING ── */
+function activateTab(tab) {
+  if (tab === 'photos') {
+    renderPhotos();
+    photosTab.className = "tab-btn active";
+    reelsTab.className  = "tab-btn inactive";
+  } else {
+    renderReels();
+    reelsTab.className  = "tab-btn active";
+    photosTab.className = "tab-btn inactive";
+  }
+  document.getElementById('work').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Init from hash on load
+const initHash = location.hash;
+if (initHash === '#photos') {
+  activateTab('photos');
+} else {
+  activateTab('reels');
+}
 
 document.getElementById("reelsTab").onclick = () => {
-  renderReels();
-  reelsTab.className  = "tab-btn active";
-  photosTab.className = "tab-btn inactive";
+  history.pushState(null, '', '#reels');
+  activateTab('reels');
 };
 document.getElementById("photosTab").onclick = () => {
-  renderPhotos();
-  photosTab.className = "tab-btn active";
-  reelsTab.className  = "tab-btn inactive";
+  history.pushState(null, '', '#photos');
+  activateTab('photos');
 };
+
+// Handle browser back/forward
+window.addEventListener('popstate', () => {
+  activateTab(location.hash === '#photos' ? 'photos' : 'reels');
+});
 </script>
 </body>
 </html>
