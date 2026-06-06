@@ -57,18 +57,20 @@ h1{font-size:4rem;line-height:1.1}
 }
 .work-grid{
   display:grid;
-  grid-template-columns:min(390px,42%) 1fr;
-  gap:32px;
+  grid-template-columns:340px 1fr;
+  gap:28px;
   align-items:start;
 }
 
 /* ── VIDEO CONTAINER (9:16) — stays inside card ── */
 .video-wrap{
-  width:100%;
+  width:340px;
+  max-width:100%;
   position:relative;
   border-radius:12px;
   overflow:hidden;
   background:#000;
+  margin:0 auto;
 }
 .video-wrap::before{
   content:'';
@@ -203,7 +205,8 @@ h1{font-size:4rem;line-height:1.1}
   .metric{padding:14px}
   .metric h3{font-size:1.4rem}
   /* Stack video + info vertically on mobile */
-  .work-grid{grid-template-columns:1fr;gap:12px}
+  .work-grid{grid-template-columns:1fr;gap:12px;}
+  .video-wrap{ width:100%;}  
   .work-info h3{font-size:1rem}
   .work-info .muted{font-size:.82rem}
   nav .container{padding:12px 18px}
@@ -261,15 +264,18 @@ const PORTFOLIO=[
   {v:"1197512994",t:"Coffee & Maggi Reel",c:"Coffee & Maggi — the ultimate comfort combo. Four vibes, one screen. ☕🍜 Which one are you today?",tags:["coffee","maggi","cafevibes","Comfort Food"]},
   {v:"1197512905",t:"Brownie Sundae Reel",c:"Watch that rich chocolate pour over our Brownie Sundae 🍫🍨 Pure indulgence in every frame.",tags:["brownie-sundae","chocolate","dessert","icecream"]},
   {v:"1197512936",t:"Matcha Process Reel",c:"The art of matcha 🍵✨ Nine steps, one perfect cup — from sifting to the final pour, every stage is a ritual.",tags:["matcha","matcha-latte","Cafe Process","green-tea"]},
-  {v:"1197512998",t:"Christmas Cafe Reel",c:"Christmas at the café ✨🎄 Warm lights, cosy corners, and the best company — this is your holiday vibe sorted.",tags:["christmas","cafevibes","cozy","Holiday Season"]},
+  {v:"1198950499",t:"Christmas Cafe Reel",c:"Christmas at the café ✨🎄 Warm lights, cosy corners, and the best company — this is your holiday vibe sorted.",tags:["christmas","cafevibes","cozy","Holiday Season"]},
   {v:"1197513065",t:"Resort Showcase",c:"Escape into greenery 🌿 Lush landscapes, open skies, and the serene beauty of a resort that feels like paradise.",tags:["resort","nature","greenery","travel","outdoor"]},
   {v:"1197512901",t:"Cafe Ambience Reel",c:"Your favourite café, inside out ☕🏡 From the cosy outdoor seating to the warm indoor ambiance — this is your happy place.",tags:["cafe","Coffee Lover","cafe-vibes","aesthetic"]},
   {v:"1197512903",t:"Strawberry Matcha Reel",c:"Our bestseller for a reason 🍵🍓 Watch the Strawberry Matcha come to life — layered, vibrant and absolutely irresistible.",tags:["Strawberry Matcha","bestseller","matcha"]},
   {v:"1197512902",t:"Biscoff Cheesecake Reel",c:"Biscoff Cheesecake — because some things deserve a slow reveal 🍰✨ Creamy, dreamy, and dangerously good.",tags:["biscoffcheesecake","cheesecake","biscoff","dessert"]},
   {v:"1197513020",t:"Plum Cake Campaign",c:"Plum cake season is here 🎶🍰 Jingle bells and the smell of fresh plum cake — the holidays don't get better than this.",tags:["plumcake","christmas","jinglebells","Holiday Baking"]},
   {v:"1197513090",t:"Cakes & Pastries Reel",c:"Slice after slice of happiness 🎂🔪 Cakes and pastries that are almost too pretty to cut — almost.",tags:["cakes","pastry","Cake Cutting","bakery"]},
-  {v:"1197513016",t:"Summer Drinks Reel",c:"Shake it up this summer ☀️🍵 Matcha and coffee — shaken, not stirred — your new favourite warm-weather drink.",tags:["summerdrink","matcha","coffee","Summer Vibes"]},
-  {v:"1197513097",t:"Oreo Cheesecake Reel",c:"Oreo Cheesecake 🖤🍪 Layers of creamy cheesecake and crushed Oreo bliss — the collab nobody asked for but everybody needed.",tags:["OreoCheeseCake","cheesecake","oreo","dessert"]}
+  {v:"1197513097",t:"Oreo Cheesecake Reel",c:"Oreo Cheesecake 🖤🍪 Layers of creamy cheesecake and crushed Oreo bliss — the collab nobody asked for but everybody needed.",tags:["OreoCheeseCake","cheesecake","oreo","dessert"]},
+  {v:"1198950501",t:"Mango Salsa",c:"Nachos with a summer twist. Enjoy our zesty mango salsa while the season lasts—fresh, tangy, and totally irresistible!",tags:["mangos","nachos","Summer Vibes"]},
+  {v:"1198950500",t:"Bakery Items",c:"Luxury in layers, perfection in every bite",tags:["pasteries","cupcakes","tarts"]},
+  {v:"1198950498",t:"A Day at Cafe",c:"A day treating yourself with delicious food is a Day well spent",tags:["cafe","vibes","aesthetic"]}
+  //{v:"",t:"",c:"",tags:["","",""]},
 ];
 </script>
 
